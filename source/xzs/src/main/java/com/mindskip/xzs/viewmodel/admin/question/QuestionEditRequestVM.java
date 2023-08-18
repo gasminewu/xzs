@@ -8,6 +8,10 @@ import javax.validation.constraints.*;
 import java.util.List;
 
 
+/**
+ * 题目
+ *
+ */
 public class QuestionEditRequestVM {
 
     private Integer id;

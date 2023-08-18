@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8030
   undertow:
     io-threads: 16
     worker-threads: 4000
@@ -12,7 +12,8 @@ server:
 #logging logback
 logging:
   config: classpath:logback-spring.xml
-  file: xzs
+  file:
+    name: xzs
 
 #mybatis
 mybatis:
@@ -54,12 +55,49 @@ pagehelper:
 
 #mybatis datasource default HikariPool
 spring:
-  datasource:
-    hikari:
-      idle-timeout: 600000  #10 min
-      max-lifetime: 1800000 #30 min
-
-
+  servlet: 
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   #runningtime environment
   profiles:
     active:  dev
+  datasource:
+#  非分布式事务
+    type: com.alibaba.druid.pool.DruidDataSource
+#  分布式事务
+#    type: com.alibaba.druid.pool.xa.DruidXADataSource
+    druid:
+        # 数据源1
+        driverClassName: com.mysql.jdbc.Driver
+        # 初始连接数
+        initialSize: 5
+        # 最小连接池数量
+        minIdle: 10
+        # 最大连接池数量
+        maxActive: 20
+        # 配置获取连接等待超时的时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        # 配置一个连接在池中最小生存的时间，单位是毫秒
+        minEvictableIdleTimeMillis: 300000
+        # 配置一个连接在池中最大生存的时间，单位是毫秒
+        maxEvictableIdleTimeMillis: 900000
+        # 配置检测连接是否有效
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+         # 合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: true
+        filter:
+            stat:
+                enabled: true
+                # 慢SQL记录
+                log-slow-sql: true
+                slow-sql-millis: 1000
+                merge-sql: true
+            wall:
+                config:
+                    multi-statement-allow: true

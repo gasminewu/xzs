@@ -1,11 +1,10 @@
 // initial state
 const state = {
   user: {
+    tfEnum: [{ key: 0, value: '否' }, { key: 1, value: '是' }],
     sexEnum: [{ key: 1, value: '男' }, { key: 2, value: '女' }],
     statusEnum: [{ key: 1, value: '启用' }, { key: 2, value: '禁用' }],
-    levelEnum: [{ key: 1, value: '一年级' }, { key: 2, value: '二年级' }, { key: 3, value: '三年级' }, { key: 4, value: '四年级' }, { key: 5, value: '五年级' }, { key: 6, value: '六年级' },
-      { key: 7, value: '初一' }, { key: 8, value: '初二' }, { key: 9, value: '初三' },
-      { key: 10, value: '高一' }, { key: 11, value: '高二' }, { key: 12, value: '高三' }],
+    levelEnum: [{ key: 2, value: '3-6岁' }, { key: 3, value: '一年级' }, { key: 1, value: '0-3岁' }],
     roleEnum: [{ key: 1, value: '学生' }, { key: 2, value: '教师' }, { key: 3, value: '管理员' }],
     statusTag: [{ key: 1, value: 'success' }, { key: 2, value: 'danger' }],
     statusBtn: [{ key: 1, value: '禁用' }, { key: 2, value: '启用' }]
@@ -22,6 +21,13 @@ const state = {
         { key: 4, value: '/exam/question/edit/gapFilling', name: '填空题' },
         { key: 5, value: '/exam/question/edit/shortAnswer', name: '简答题' }]
     }
+  },
+  book: {
+    pinyinEnum: [{ key: 0, value: '无' }, { key: 1, value: '有' }],
+    nationEnum: [{ key: 'home', value: '国内' }, { key: 'Japan', value: '日本' }, { key: 'UK', value: '英国' }, { key: 'French', value: '法国' },
+      { key: 'America', value: '美国' }],
+    statusEnum: [{ key: 1, value: '正常' }, { key: 2, value: '归档' }, { key: 3, value: '计划购买' }],
+    buyEnum: [{ key: 1, value: '购买' }, { key: 2, value: '借阅' }]
   }
 }
 

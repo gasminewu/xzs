@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * 阶段下模块管理
+ *
+ */
 @RestController("AdminEducationController")
 @RequestMapping(value = "/api/admin/education")
 public class EducationController extends BaseApiController {
@@ -41,7 +45,7 @@ public class EducationController extends BaseApiController {
     }
 
     @RequestMapping(value = "/subject/edit", method = RequestMethod.POST)
-    public RestResponse edit(@RequestBody @Valid SubjectEditRequestVM model) {
+    public RestResponse<?> edit(@RequestBody @Valid SubjectEditRequestVM model) {
         Subject subject = modelMapper.map(model, Subject.class);
         if (model.getId() == null) {
             subject.setDeleted(false);
@@ -60,8 +64,9 @@ public class EducationController extends BaseApiController {
     }
 
     @RequestMapping(value = "/subject/delete/{id}", method = RequestMethod.POST)
-    public RestResponse delete(@PathVariable Integer id) {
+    public RestResponse<?> delete(@PathVariable Integer id) {
         Subject subject = subjectService.selectById(id);
+        //逻辑删除
         subject.setDeleted(true);
         subjectService.updateByIdFilter(subject);
         return RestResponse.ok();

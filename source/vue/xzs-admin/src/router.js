@@ -8,7 +8,7 @@ const constantRoutes = [
   {
     path: '/redirect',
     component: Layout,
-    hidden: true,
+    hidden: false,
     children: [
       {
         path: '/redirect/:path*',
@@ -56,7 +56,7 @@ const constantRoutes = [
         component: () => import('@/views/user/student/edit'),
         name: 'UserStudentEdit',
         meta: { title: '学生编辑', noCache: true, activeMenu: '/user/student/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'admin/list',
@@ -69,7 +69,7 @@ const constantRoutes = [
         component: () => import('@/views/user/admin/edit'),
         name: 'UserAdminEdit',
         meta: { title: '管理员编辑', noCache: true, activeMenu: '/user/admin/list' },
-        hidden: true
+        hidden: false
       }
     ]
   },
@@ -93,7 +93,7 @@ const constantRoutes = [
         component: () => import('@/views/exam/paper/edit'),
         name: 'ExamPaperEdit',
         meta: { title: '试卷编辑', noCache: true, activeMenu: '/exam/paper/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'question/list',
@@ -106,35 +106,35 @@ const constantRoutes = [
         component: () => import('@/views/exam/question/edit/single-choice'),
         name: 'singleChoicePage',
         meta: { title: '单选题编辑', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'question/edit/multipleChoice',
         component: () => import('@/views/exam/question/edit/multiple-choice'),
         name: 'multipleChoicePage',
         meta: { title: '多选题编辑', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'question/edit/trueFalse',
         component: () => import('@/views/exam/question/edit/true-false'),
         name: 'trueFalsePage',
         meta: { title: '判断题编辑', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'question/edit/gapFilling',
         component: () => import('@/views/exam/question/edit/gap-filling'),
         name: 'gapFillingPage',
         meta: { title: '填空题编辑', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: true
+        hidden: false
       },
       {
         path: 'question/edit/shortAnswer',
         component: () => import('@/views/exam/question/edit/short-answer'),
         name: 'shortAnswerPage',
         meta: { title: '简答题编辑', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: true
+        hidden: false
       }
     ]
   },
@@ -167,7 +167,7 @@ const constantRoutes = [
     component: Layout,
     name: 'EducationPage',
     meta: {
-      title: '教育管理',
+      title: '模块管理',
       icon: 'education'
     },
     alwaysShow: true,
@@ -176,13 +176,65 @@ const constantRoutes = [
         path: 'subject/list',
         component: () => import('@/views/education/subject/list'),
         name: 'EducationSubjectPage',
-        meta: { title: '学科列表', noCache: true }
+        meta: { title: '模块列表', noCache: true }
       },
       {
         path: 'subject/edit',
         component: () => import('@/views/education/subject/edit'),
         name: 'EducationSubjectEditPage',
         meta: { title: '学科编辑', noCache: true, activeMenu: '/education/subject/list' },
+        hidden: false
+      }
+    ]
+  },
+  {
+    path: '/book',
+    component: Layout,
+    name: 'BookPage',
+    meta: {
+      title: '书籍管理',
+      icon: 'education'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/book/list'),
+        name: 'BookPage',
+        meta: { title: '书籍列表', noCache: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/book/edit'),
+        name: 'BookEditPage',
+        meta: { title: '书籍编辑', noCache: true, activeMenu: '/book/list' },
+        hidden: false
+      },
+      {
+        path: 'finish',
+        component: () => import('@/views/book/finish'),
+        name: 'BookFinishPage',
+        meta: { title: '更改状态', noCache: true, activeMenu: '/book/list' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '*',
+    component: Layout,
+    name: 'AlarmPage',
+    hidden: true,
+    meta: {
+      title: '闹铃管理',
+      icon: 'alarm'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: '*',
+        component: () => import('@/views/alarm/edit'),
+        name: 'AlarmPageEdit',
+        meta: { title: '闹铃', noCache: true },
         hidden: true
       }
     ]
@@ -250,7 +302,7 @@ const constantRoutes = [
   {
     path: '/profile',
     component: Layout,
-    hidden: true,
+    hidden: false,
     children: [
       {
         path: 'index',
@@ -261,7 +313,7 @@ const constantRoutes = [
     ]
   },
   { path: '*',
-    hidden: true,
+    hidden: false,
     component: () => import('@/views/error-page/404'),
     meta: { title: '404', noCache: true }
   }

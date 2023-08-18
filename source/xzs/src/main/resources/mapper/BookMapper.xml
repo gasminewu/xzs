@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.BookMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.Book">
+    <id column="id" jdbcType="INTEGER" property="id" />
+  	<result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="grade_level" jdbcType="INTEGER" property="gradeLevel" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="difficult" jdbcType="INTEGER" property="difficult" />
+    <result column="lovel" jdbcType="INTEGER" property="lovel" />
+    <result column="pinyin" jdbcType="INTEGER" property="pinyin" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="info_text_content_id" jdbcType="INTEGER" property="infoTextContentId" />
+    <result column="parentid" jdbcType="INTEGER" property="parentid" />
+    <result column="buy" jdbcType="INTEGER" property="buy" />
+    <result column="sn" jdbcType="INTEGER" property="sn" />
+    <result column="create_user" jdbcType="INTEGER" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title,subject_id,grade_level,difficult,lovel,pinyin,nation,info_text_content_id,parentid,buy,sn,finish_time,
+    create_user, status, create_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mindskip.xzs.domain.Book" useGeneratedKeys="true" keyProperty="id">
+    insert into t_book (id, title,subject_id,grade_level,difficult,lovel,pinyin,nation,info_text_content_id,parentid,buy,sn,finish_time, create_user,
+      status, create_time, deleted
+      )
+    values (#{id,jdbcType=INTEGER},
+      #{title,jdbcType=VARCHAR}, #{subjectId,jdbcType=INTEGER}, #{gradeLevel,jdbcType=INTEGER}, #{difficult,jdbcType=INTEGER},
+ #{lovel,jdbcType=INTEGER}, #{pinyin,jdbcType=INTEGER}, #{nation,jdbcType=VARCHAR},
+ #{infoTextContentId,jdbcType=INTEGER},#{ parentid,jdbcType=INTEGER}, #{buy,jdbcType=INTEGER},
+  #{sn,jdbcType=INTEGER},#{finishTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.Book" useGeneratedKeys="true" keyProperty="id">
+    insert into t_book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>     
+      <if test="title != null">title,</if>
+      <if test="subjectId != null">subject_id,</if>
+      <if test="gradeLevel != null">grade_level,</if>
+	  <if test="difficult != null">difficult,</if>
+	  <if test="lovel != null">lovel,</if>
+	  <if test="pinyin != null">pinyin,</if>
+	  <if test="nation != null">nation, </if>
+	 <if test="infoTextContentId != null">info_text_content_id,</if>
+	 <if test="parentid != null">parentid,</if>
+	 <if test="buy != null">buy,</if>
+	 <if test="sn != null"> sn, </if>
+	 <if test="finishTime != null">finish_time,</if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>    
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">#{subjectId,jdbcType=INTEGER},</if>
+      <if test="gradeLevel != null">#{gradeLevel,jdbcType=INTEGER},</if>
+	  <if test="difficult != null">#{difficult,jdbcType=INTEGER},</if>
+	  <if test="lovel != null">#{lovel,jdbcType=INTEGER},</if>
+	  <if test="pinyin != null"> #{pinyin,jdbcType=INTEGER},</if>
+	  <if test="nation != null">#{nation,jdbcType=VARCHAR}, </if>
+	 <if test="infoTextContentId != null">#{infoTextContentId,jdbcType=INTEGER},</if>
+	 <if test="parentid != null">#{ parentid,jdbcType=INTEGER},</if>
+	 <if test="buy != null">#{buy,jdbcType=INTEGER},</if>
+	 <if test="sn != null">  #{sn,jdbcType=INTEGER}, </if>
+	 <if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP},</if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.Book">
+    update t_book
+    <set>     
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectId != null">subject_id=#{subjectId,jdbcType=INTEGER},</if>
+      <if test="gradeLevel != null">grade_level=#{gradeLevel,jdbcType=INTEGER},</if>
+	  <if test="difficult != null">difficult=#{difficult,jdbcType=INTEGER},</if>
+	  <if test="lovel != null">lovel=#{lovel,jdbcType=INTEGER},</if>
+	  <if test="pinyin != null"> pinyin=#{pinyin,jdbcType=INTEGER},</if>
+	  <if test="nation != null">nation=#{nation,jdbcType=VARCHAR} ,</if>
+	 <if test="infoTextContentId != null">info_text_content_id=#{infoTextContentId,jdbcType=INTEGER},</if>
+	 <if test="parentid != null">parentid=#{ parentid,jdbcType=INTEGER},</if>
+	 <if test="buy != null">buy=#{buy,jdbcType=INTEGER},</if>
+	 <if test="sn != null">  sn=#{sn,jdbcType=INTEGER}, </if>
+	 <if test="finishTime != null">finish_time=#{finishTime,jdbcType=TIMESTAMP},</if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.Book">
+    update t_book
+    set  title = #{title,jdbcType=VARCHAR},
+     subject_id=#{subjectId,jdbcType=INTEGER}, 
+	grade_level= #{gradeLevel,jdbcType=INTEGER}, 
+	difficult= #{difficult,jdbcType=INTEGER},
+	 lovel=#{lovel,jdbcType=INTEGER}, 
+	pinyin =#{pinyin,jdbcType=INTEGER},
+	nation =#{nation,jdbcType=VARCHAR},
+	 info_text_content_id=#{infoTextContentId,jdbcType=INTEGER},
+	parentid= #{ parentid,jdbcType=INTEGER}, 
+	buy= #{buy,jdbcType=INTEGER},
+	sn =#{sn,jdbcType=INTEGER},
+	 finish_time=#{finishTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
+  <select id="page" resultMap="BaseResultMap" parameterType="com.mindskip.xzs.viewmodel.admin.book.BookPageRequestVM">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_book
+    <where>
+        and deleted='f'
+      <if test="id != null ">
+        and id= #{id}
+      </if>
+       <if test="level != null ">
+        and grade_level= #{level}
+      </if>
+      <if test="subjectId != null ">
+        and subject_id= #{subjectId}
+      </if>
+      <if test="pinyin != null ">
+        and pinyin= #{pinyin}
+      </if>
+      <if test="status != null ">
+        and status= #{status}
+      </if>
+       <if test="title != null ">
+        and title like concat('%', #{title}, '%')
+      </if>
+    </where>
+  </select>
+
+
+
+  <select id="selectByIds" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM t_book where id in
+    <foreach item="id" collection="ids" open="(" separator=","
+             close=")">
+      #{id}
+    </foreach>
+  </select>
+
+
+  <select id="selectAllCount"  resultType="java.lang.Integer">
+		SELECT count(*) from t_book where  deleted='f'
+	</select>
+
+  <select id="selectCountByDate"  resultType="com.mindskip.xzs.domain.other.KeyValue">
+		SELECT create_time as name,COUNT(create_time) as value from
+		        (
+				  SELECT to_char(create_time,'yyyy-mm-dd') as create_time from t_book
+					WHERE  deleted='f' and  create_time  between  #{startTime}  and  #{endTime}
+				) a
+		GROUP BY create_time
+	</select>
+ <!-- 获取最大的顺序号-->
+ <select id="selectMaxSn"  resultType="java.lang.Integer">
+		SELECT max(sn) FROM t_book WHERE deleted = 'f'
+ </select>
+ <!-- 大于等于当前值的都+1-->
+ <update id="updateGTSn">
+    update t_book set sn=sn+1 where sn>=#{sninput}
+</update>
+
+</mapper>

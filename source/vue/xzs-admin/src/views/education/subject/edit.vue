@@ -2,11 +2,11 @@
   <div class="app-container">
 
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading">
-      <el-form-item label="学科：" required>
+      <el-form-item label="模块：" required>
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="年级：" required>
-        <el-select v-model="form.level" placeholder="年级">
+      <el-form-item label="阶段：" required>
+        <el-select v-model="form.level" placeholder="阶段">
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -28,7 +28,7 @@ export default {
       form: {
         id: null,
         name: '',
-        level: 1,
+        level: null,
         levelName: ''
       },
       formLoading: false
@@ -70,7 +70,7 @@ export default {
       this.form = {
         id: null,
         name: '',
-        level: 1,
+        level: null,
         levelName: ''
       }
       this.form.id = lastId

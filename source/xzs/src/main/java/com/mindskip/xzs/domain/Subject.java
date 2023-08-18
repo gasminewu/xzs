@@ -9,17 +9,17 @@ public class Subject implements Serializable {
     private Integer id;
 
     /**
-     * 语文 数学 英语 等
+     * 模块名称 语文 数学 英语 等
      */
     private String name;
 
     /**
-     * 年级 (1-12) 小学 初中
+     * 阶段， 3-6 年级 (1-12) 小学 初中
      */
     private Integer level;
 
     /**
-     * 一年级、二年级等
+     * 阶段名称 一年级、二年级等
      */
     private String levelName;
 
