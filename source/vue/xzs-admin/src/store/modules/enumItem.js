@@ -4,7 +4,7 @@ const state = {
     tfEnum: [{ key: 0, value: '否' }, { key: 1, value: '是' }],
     sexEnum: [{ key: 1, value: '男' }, { key: 2, value: '女' }],
     statusEnum: [{ key: 1, value: '启用' }, { key: 2, value: '禁用' }],
-    levelEnum: [{ key: 2, value: '3-6岁' }, { key: 3, value: '一年级' }, { key: 1, value: '0-3岁' }],
+    levelEnum: [{ key: 1, value: '绘本' }, { key: 2, value: '运动' }, { key: 3, value: '古诗' }, { key: 4, value: '语文' }, { key: 5, value: '数学' }],
     roleEnum: [{ key: 1, value: '学生' }, { key: 2, value: '教师' }, { key: 3, value: '管理员' }],
     statusTag: [{ key: 1, value: 'success' }, { key: 2, value: 'danger' }],
     statusBtn: [{ key: 1, value: '禁用' }, { key: 2, value: '启用' }]

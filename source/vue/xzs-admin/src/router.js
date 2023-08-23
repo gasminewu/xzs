@@ -182,7 +182,7 @@ const constantRoutes = [
         path: 'subject/edit',
         component: () => import('@/views/education/subject/edit'),
         name: 'EducationSubjectEditPage',
-        meta: { title: '学科编辑', noCache: true, activeMenu: '/education/subject/list' },
+        meta: { title: '模块编辑', noCache: true, activeMenu: '/education/subject/list' },
         hidden: false
       }
     ]
@@ -216,6 +216,31 @@ const constantRoutes = [
         name: 'BookFinishPage',
         meta: { title: '更改状态', noCache: true, activeMenu: '/book/list' },
         hidden: true
+      }
+    ]
+  },
+  {
+    path: '/day',
+    component: Layout,
+    name: 'DayPage',
+    meta: {
+      title: '每日管理',
+      icon: 'day'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/day/list'),
+        name: 'DayPage',
+        meta: { title: '任务列表', noCache: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/day/edit'),
+        name: 'DayEditPage',
+        meta: { title: '书籍编辑', noCache: true, activeMenu: '/day/list' },
+        hidden: false
       }
     ]
   },
