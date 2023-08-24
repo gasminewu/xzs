@@ -4,8 +4,8 @@
       <el-form-item label="书名：">
         <el-input v-model="queryParam.title" clearable></el-input>
       </el-form-item>
-      <el-form-item label="阶段：">
-        <el-select v-model="queryParam.level" placeholder="阶段"  @change="levelChange" clearable>
+      <el-form-item label="项目：">
+        <el-select v-model="queryParam.level" placeholder="项目"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -48,9 +48,6 @@
           <el-button size="mini"  type="danger" @click="deleteQuestion(row)" class="link-left">删除</el-button>
           <router-link :to="{path:'/book/finish', query:{id:row.id}}" class="link-left">
             <el-button size="mini">状态</el-button>
-          </router-link>
-            <router-link :to="{path:'/alarm/edit', query:{id:row.id,alarmType:0}}" class="link-left">
-            <el-button size="mini">任务</el-button>
           </router-link>
            <router-link :to="{path:'/book/edit', query:{parentid: row.id}}" class="link-left" v-if="!row.parentid" >
           <el-button size="mini">套装</el-button>

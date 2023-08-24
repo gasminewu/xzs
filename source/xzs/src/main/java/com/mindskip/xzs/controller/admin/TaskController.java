@@ -14,6 +14,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController("AdminTaskController")
@@ -32,13 +35,26 @@ public class TaskController extends BaseApiController {
         PageInfo<TaskExam> pageInfo = taskExamService.page(model);
         PageInfo<TaskPageResponseVM> page = PageInfoHelper.copyMap(pageInfo, m -> {
             TaskPageResponseVM vm = modelMapper.map(m, TaskPageResponseVM.class);
-            vm.setCreateTime(DateTimeUtil.dateFormat(m.getCreateTime()));
+            vm.setCreateTime(DateTimeUtil.dateShortFormat(m.getCreateTime()));
+            vm.setTasktimestart(DateTimeUtil.dateShortFormat(m.getTasktimestart()));
+            vm.setTasktimeend(DateTimeUtil.dateShortFormat(m.getTasktimeend()));
+            vm.setFinishtime(DateTimeUtil.dateShortFormat(m.getFinishtime()));
+            
+            String now=DateTimeUtil.dateShortFormat(new Date());
+            int kn=DateTimeUtil.DayBettew(now,DateTimeUtil.dateShortFormat(m.getTasktimestart()));
+            int en=DateTimeUtil.DayBettew(now,DateTimeUtil.dateShortFormat(m.getTasktimeend()));
+            if(kn>0) {
+            	vm.setTime("距离"+kn+"天");
+            }else if(en>=0) {
+            	vm.setTime("剩余"+en+"天");
+            }else {
+            	vm.setTime("超期"+(-en)+"天");
+            }
             return vm;
         });
         return RestResponse.ok(page);
     }
-
-
+    
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public RestResponse edit(@RequestBody @Valid TaskRequestVM model) {
         taskExamService.edit(model, getCurrentUser());
@@ -58,6 +74,17 @@ public class TaskController extends BaseApiController {
         TaskExam taskExam = taskExamService.selectById(id);
         taskExam.setDeleted(true);
         taskExamService.updateByIdFilter(taskExam);
+        return RestResponse.ok();
+    }
+    /**
+     * 导出附件
+     * @param model
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/export", method = RequestMethod.POST)
+    public RestResponse export(@RequestBody TaskPageRequestVM model,HttpServletResponse response) {
+        taskExamService.exportExcel(model,response);
         return RestResponse.ok();
     }
 }

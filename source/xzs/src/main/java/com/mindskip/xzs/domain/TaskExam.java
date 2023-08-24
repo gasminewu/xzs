@@ -3,6 +3,13 @@ package com.mindskip.xzs.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import lombok.Data;
+
+/**
+ * 任务基本信息
+ *
+ */
+@Data
 public class TaskExam implements Serializable {
 
     private static final long serialVersionUID = -7014704644631536195L;
@@ -40,6 +47,41 @@ public class TaskExam implements Serializable {
      * 创建人用户名
      */
     private String createUserName;
+    
+    /**
+     * 创建时间
+     */
+    private Date tasktimestart;
+    /**
+     * 任务时间（计划时间）开始
+     */
+    private Date tasktimeend;
+    /**
+     * 任务时间（计划时间）结束
+     */
+    private Date finishtime;
+    /**
+     * 任务状态
+     */
+    private Integer status;
+    /**
+     * 任务进度（百分比
+     */
+    private Integer process;
+    /**
+     * 优先级（普通，较高，最高）
+     */
+    private Integer priority;
+    /**
+     * 顺序号
+     */
+    private Integer sn;
+    /**
+     * 任务类别
+     */
+    private Integer tasktype;
+
+    
 
     public Integer getId() {
         return id;

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="阶段：" prop="gradeLevel" required>
-        <el-select v-model="form.gradeLevel" placeholder="阶段"  @change="levelChange" clearable>
+      <el-form-item label="项目：" prop="gradeLevel" required>
+        <el-select v-model="form.gradeLevel" placeholder="项目"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -44,6 +44,21 @@
       <el-form-item label="备注说明：" prop="bz">
         <el-input v-model="form.bz"  @focus="inputClick(form,'bz')" />
       </el-form-item>
+       <el-form-item label="任务：" >
+        <el-table  :data="form.taskItems" border fit highlight-current-row style="width: 100%">
+              <el-table-column   label="序号" align="center" width="60px">
+        <template slot-scope="scop">
+            {{scop.$index+1}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="title" label="标题" />
+        <el-table-column prop="tasktimestart" label="开始时间" />
+        <el-table-column prop="tasktimeend" label="结束时间" />
+        <el-table-column prop="finishtime" label="归档时间" />
+      <el-table-column prop="status" label="状态" :formatter="taskstatusFormatter" width="50px"/>
+        </el-table>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>
       </el-form-item>
@@ -91,7 +106,7 @@ export default {
       formLoading: false,
       rules: {
         gradeLevel: [
-          { required: true, message: '请选择阶段', trigger: 'change' }
+          { required: true, message: '请选择项目', trigger: 'change' }
         ],
         subjectId: [
           { required: true, message: '请选择模块', trigger: 'change' }
@@ -180,6 +195,9 @@ export default {
       this.form.subjectId = null
       this.subjectFilter = this.subjects.filter(data => data.level === this.form.gradeLevel)
     },
+    taskstatusFormatter (row, column, cellValue, index) {
+      return this.enumFormat(this.taskstatusEnum, cellValue)
+    },
     ...mapActions('exam', { initSubject: 'initSubject' }),
     ...mapActions('tagsView', { delCurrentView: 'delCurrentView' })
   },
@@ -189,6 +207,7 @@ export default {
       nationEnum: state => state.book.nationEnum,
       buyEnum: state => state.book.buyEnum,
       pinyinEnum: state => state.book.pinyinEnum,
+      taskstatusEnum: state => state.task.statusEnum,
       levelEnum: state => state.user.levelEnum
     }),
     ...mapState('exam', { subjects: state => state.subjects })

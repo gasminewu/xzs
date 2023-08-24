@@ -12,4 +12,10 @@ public interface TaskExamMapper extends BaseMapper<TaskExam> {
     List<TaskExam> page(TaskPageRequestVM requestVM);
 
     List<TaskExam> getByGradeLevel(Integer gradeLevel);
+    /**
+     * 根据书籍主键，查询所有的任务
+     * @param relationid
+     * @return
+     */
+    List<TaskExam> selectListByBookId(Integer relationid);
 }

@@ -223,5 +223,13 @@
  <update id="updateGTSn">
     update t_book set sn=sn+1 where sn>=#{sninput}
 </update>
+ <!-- 根据任务主键查询所有的书籍-->
+  <select id="selectListByTaskExamId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select
+    <include refid="Base_Column_List" />
+    from t_book b
+    where  exists(select 1 from  t_task_exam_relation r where  b.id=r.relationid and r.task_exam_id =#{taskExamId,jdbcType=INTEGER})  
+  </select>
+  
 
 </mapper>

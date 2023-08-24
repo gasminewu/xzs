@@ -1,60 +1,67 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="书名：">
-        <el-input v-model="queryParam.title" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="阶段：">
-        <el-select v-model="queryParam.level" placeholder="阶段"  @change="levelChange" clearable>
+      <el-form-item label="项目：">
+        <el-select v-model="queryParam.gradeLevel" placeholder="项目" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="模块：">
-        <el-select v-model="queryParam.subjectId" clearable>
-          <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id"
-                     :label="item.name+' ( '+item.levelName+' )'"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="拼音：">
-        <el-select v-model="queryParam.pinyin" clearable>
-          <el-option v-for="item in pinyinEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-        </el-select>
-      </el-form-item>
-       <el-form-item label="状态：">
-        <el-select v-model="queryParam.status" clearable>
+        <el-form-item label="状态：">
+        <el-select v-model="queryParam.status" placeholder="状态" clearable>
           <el-option v-for="item in statusEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+       <el-form-item label="优先级：">
+        <el-select v-model="queryParam.priority" placeholder="优先级" clearable>
+          <el-option v-for="item in priorityEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+        <el-form-item label="类别：">
+        <el-select v-model="queryParam.tasktype" placeholder="任务类别" clearable>
+          <el-option v-for="item in taskTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+        <el-form-item label="是否开始：">
+        <el-select v-model="queryParam.timetype" placeholder="是否开始" clearable>
+          <el-option v-for="item in timetypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
-        <router-link :to="{path:'/book/edit'}" class="link-left">
+         <router-link :to="{path:'/day/edit'}" class="link-left">
           <el-button type="primary">添加</el-button>
         </router-link>
+        <el-button type="primary" @click="exportTask">导出</el-button>
       </el-form-item>
     </el-form>
+
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="sn" label="顺序号" width="70px"/>
-      <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="200px"/>
-      <el-table-column prop="title" label="书名" show-overflow-tooltip/>
-      <el-table-column prop="pinyin" label="拼音" :formatter="pinyinFormatter" width="50px"/>
-      <el-table-column prop="parentid" label="套装" :formatter="setFormatter" width="50px"/>
+      <el-table-column   label="序号" align="center" width="60px">
+        <template slot-scope="scop">
+          {{scop.$index+1}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="标题" />
+      <el-table-column prop="gradeLevel" label="项目"  :formatter="levelFormatter" width="150"/>
+       <el-table-column  label="时间" align="center" width="100"><template slot-scope="scope">
+          <el-popover placement="top" trigger="hover">
+            <div style="padding:10px">开始时间: {{ scope.row.tasktimestart }}</div>
+            <div style="padding:10px">结束时间：{{scope.row.tasktimeend }}</div>
+            <div style="padding:10px">归档时间：{{scope.row.finishtime }}</div>
+            <div style="padding:10px">创建时间：{{scope.row.createTime }}</div>
+            <div slot="reference" class="name-wrapper">
+               <div>{{ scope.row.time }}</div>
+            </div>
+          </el-popover>
+     </template>
+      </el-table-column>
+      <el-table-column prop="priority" label="优先级" :formatter="priorityFormatter" width="70px"/>
+      <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="50px"/>
       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="50px"/>
-      <el-table-column prop="createTime" label="创建时间" width="100px"/>
-      <el-table-column label="操作" align="center" width="326px">
+      <el-table-column  label="操作" align="center"  width="160px">
         <template slot-scope="{row}">
-         <router-link :to="{path:'/book/edit', query:{id:row.id}}" class="link-left">
-            <el-button size="mini">编辑</el-button>
-          </router-link>
-          <el-button size="mini"  type="danger" @click="deleteQuestion(row)" class="link-left">删除</el-button>
-          <router-link :to="{path:'/book/finish', query:{id:row.id}}" class="link-left">
-            <el-button size="mini">状态</el-button>
-          </router-link>
-            <router-link :to="{path:'/alarm/edit', query:{id:row.id,alarmType:0}}" class="link-left">
-            <el-button size="mini">任务</el-button>
-          </router-link>
-           <router-link :to="{path:'/book/edit', query:{parentid: row.id}}" class="link-left" v-if="!row.parentid" >
-          <el-button size="mini">套装</el-button>
-        </router-link>
+          <el-button size="mini" @click="$router.push({path:'/day/edit',query:{id:row.id}})" >编辑</el-button>
+          <el-button size="mini"  type="danger" @click="deleteTask(row)" class="link-left">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,42 +71,33 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
-
-import bookApi from '@/api/book'
+import taskApi from '@/api/task'
 
 export default {
   components: { Pagination },
   data () {
     return {
       queryParam: {
-        id: null,
-        questionType: null,
-        level: null,
-        subjectId: null,
+        gradeLevel: null,
         status: 1,
+        timetype: 1,
         pageIndex: 1,
         pageSize: 10
       },
-      subjectFilter: null,
       listLoading: true,
       tableData: [],
       total: 0
     }
   },
   created () {
-    this.initSubject()
     this.search()
   },
   methods: {
-    submitForm () {
-      this.queryParam.pageIndex = 1
-      this.search()
-    },
     search () {
       this.listLoading = true
-      bookApi.pageList(this.queryParam).then(data => {
+      taskApi.pageList(this.queryParam).then(data => {
         const re = data.response
         this.tableData = re.list
         this.total = re.total
@@ -107,13 +105,20 @@ export default {
         this.listLoading = false
       })
     },
-    levelChange () {
-      this.queryParam.subjectId = null
-      this.subjectFilter = this.subjects.filter(data => data.level === this.queryParam.level)
+    exportTask () {
+      this.listLoading = true
+      debugger
+      taskApi.exportList(this.queryParam).then(re => {
+        this.listLoading = false
+      })
     },
-    deleteQuestion (row) {
+    submitForm () {
+      this.queryParam.pageIndex = 1
+      this.search()
+    },
+    deleteTask (row) {
       let _this = this
-      bookApi.deletebook(row.id).then(re => {
+      taskApi.deleteTask(row.id).then(re => {
         if (re.code === 1) {
           _this.search()
           _this.$message.success(re.message)
@@ -122,34 +127,31 @@ export default {
         }
       })
     },
-    pinyinFormatter (row, column, cellValue, index) {
-      return this.enumFormat(this.pinyinEnum, cellValue)
-    },
     statusFormatter (row, column, cellValue, index) {
       return this.enumFormat(this.statusEnum, cellValue)
     },
-    subjectFormatter (row, column, cellValue, index) {
-      return this.subjectEnumFormat(cellValue)
+    tasktypeFormatter (row, column, cellValue, index) {
+      return this.enumFormat(this.taskTypeEnum, cellValue)
     },
-    setFormatter (row, column, cellValue, index) {
-      if (cellValue && parseInt(cellValue) !== 0) {
-        return '是'
-      }
-      return '否'
+    levelFormatter  (row, column, cellValue, index) {
+      return this.enumFormat(this.levelEnum, cellValue)
     },
-    ...mapActions('exam', { initSubject: 'initSubject' })
+    priorityFormatter  (row, column, cellValue, index) {
+      return this.enumFormat(this.priorityEnum, cellValue)
+    },
+    timeFormatter  (row, column, cellValue, index) {
+      return 'ewewee'
+    }
   },
   computed: {
     ...mapGetters('enumItem', ['enumFormat']),
     ...mapState('enumItem', {
-      nationEnum: state => state.book.nationEnum,
-      buyEnum: state => state.book.buyEnum,
-      pinyinEnum: state => state.book.pinyinEnum,
-      statusEnum: state => state.book.statusEnum,
+      priorityEnum: state => state.task.priorityEnum,
+      taskTypeEnum: state => state.task.taskTypeEnum,
+      statusEnum: state => state.task.statusEnum,
+      timetypeEnum: state => state.task.timetypeEnum,
       levelEnum: state => state.user.levelEnum
-    }),
-    ...mapGetters('exam', ['subjectEnumFormat']),
-    ...mapState('exam', { subjects: state => state.subjects })
+    })
   }
 }
 </script>

@@ -1,6 +1,8 @@
 package com.mindskip.xzs.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mindskip.xzs.domain.Book;
+import com.mindskip.xzs.domain.TaskExam;
 import com.mindskip.xzs.domain.TextContent;
 import com.mindskip.xzs.domain.book.BookObject;
 import com.mindskip.xzs.domain.enums.BookStatusEnum;
 import com.mindskip.xzs.repository.BookMapper;
+import com.mindskip.xzs.repository.TaskExamMapper;
 import com.mindskip.xzs.service.BookService;
 import com.mindskip.xzs.service.TextContentService;
+import com.mindskip.xzs.utility.DateTimeUtil;
 import com.mindskip.xzs.utility.JsonUtil;
 import com.mindskip.xzs.utility.ModelMapperSingle;
 import com.mindskip.xzs.viewmodel.admin.book.BookEditRequestVM;
 import com.mindskip.xzs.viewmodel.admin.book.BookPageRequestVM;
+import com.mindskip.xzs.viewmodel.admin.book.BookResponseVM;
+import com.mindskip.xzs.viewmodel.admin.task.TaskPageResponseVM;
 
 @Service
 @Transactional
@@ -28,12 +35,14 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
     protected final static ModelMapper modelMapper = ModelMapperSingle.Instance();
     private final BookMapper bookMapper;
     private final TextContentService textContentService;
+    private final TaskExamMapper taskExamMapper;
 
     @Autowired
-    public BookServiceImpl(BookMapper bookMapper, TextContentService textContentService) {
+    public BookServiceImpl(BookMapper bookMapper, TextContentService textContentService,TaskExamMapper taskExamMapper) {
         super(bookMapper);
         this.textContentService = textContentService;
         this.bookMapper = bookMapper;
+		this.taskExamMapper = taskExamMapper;
     }
 
     @Override
@@ -68,7 +77,6 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
     /**
      * 书籍对象 ，以及作者，备注大字段内容拼接
      */
-    @SuppressWarnings("unlikely-arg-type")
 	public Book setBookInfoFromVM(Book book, Boolean isnew, BookEditRequestVM model) {
     	//作者，备注等 插入
     	TextContent infoTextContent=null;
@@ -126,6 +134,17 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
         bookEditRequestVM.setAutor(bookObject.getAuthor());
         bookEditRequestVM.setBz(bookObject.getBz());
         bookEditRequestVM.setFinishcontent(bookObject.getFinishcontent());
+        
+    	List<TaskExam> rs=taskExamMapper.selectListByBookId(bookId);
+        List<TaskPageResponseVM> taskItems=rs.stream().map(tk -> {
+        	TaskPageResponseVM taskVm = modelMapper.map(tk, TaskPageResponseVM.class);
+        	taskVm.setCreateTime(DateTimeUtil.dateFormat(tk.getCreateTime()));
+        	taskVm.setTasktimestart(DateTimeUtil.dateShortFormat(tk.getTasktimestart()));
+        	taskVm.setTasktimeend(DateTimeUtil.dateShortFormat(tk.getTasktimeend()));
+        	taskVm.setFinishtime(DateTimeUtil.dateShortFormat(tk.getFinishtime()));
+        	return taskVm;
+        }).collect(Collectors.toList());
+        bookEditRequestVM.setTaskItems(taskItems);
           
         return bookEditRequestVM;
     }

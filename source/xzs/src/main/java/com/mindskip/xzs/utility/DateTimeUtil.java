@@ -24,6 +24,10 @@ public class DateTimeUtil {
      */
     public static final String STANDER_FORMAT = "yyyy-MM-dd HH:mm:ss";
     /**
+     * The constant STANDER_FORMAT.
+     */
+    public static final String STANDER_FORMATFull = "yyyyMMddHHmmss";
+    /**
      * The constant STANDER_SHORT_FORMAT.
      */
     public static final String STANDER_SHORT_FORMAT = "yyyy-MM-dd";
@@ -54,6 +58,19 @@ public class DateTimeUtil {
         }
         DateFormat dateFormat = new SimpleDateFormat(STANDER_FORMAT);
         return dateFormat.format(date);
+    }
+    /**
+     * Date format string.
+     *
+     * @param date the date
+     * @return the string
+     */
+    public static String dateFormatFull(Date date) {
+    	if (null == date) {
+    		return "";
+    	}
+    	DateFormat dateFormat = new SimpleDateFormat(STANDER_FORMATFull);
+    	return dateFormat.format(date);
     }
 
     /**
@@ -154,4 +171,19 @@ public class DateTimeUtil {
         }
         return list;
     }
+    
+    /**
+     * 计算这个时间的间隔天数
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static int DayBettew(String startDateStr,String endDateStr) {
+    	Date startDate=parse(startDateStr, STANDER_SHORT_FORMAT);
+    	Date endDate=parse(endDateStr, STANDER_SHORT_FORMAT);
+    	long startTime = startDate.getTime();
+        long endTime = endDate.getTime();
+        int days = (int) ((endTime - startTime) / (1000 * 60 * 60 * 24));
+        return days;
+	}
 }

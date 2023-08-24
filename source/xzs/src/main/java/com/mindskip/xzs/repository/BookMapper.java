@@ -16,6 +16,12 @@ public interface BookMapper extends BaseMapper<Book> {
     List<Book> page(BookPageRequestVM requestVM);
 
     List<Book> selectByIds(@Param("ids") List<Integer> ids);
+    /**
+     * 查询关联的书籍
+     * @param taskExamId
+     * @return
+     */
+    List<Book> selectListByTaskExamId(Integer taskExamId);
 
     Integer selectAllCount();
     

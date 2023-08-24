@@ -1,10 +1,14 @@
 package com.mindskip.xzs.viewmodel.admin.book;
 
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+
+import com.mindskip.xzs.viewmodel.admin.task.TaskPageResponseVM;
 
 import lombok.Data;
 
@@ -42,4 +46,6 @@ public class BookEditRequestVM {
     private Integer parentid;
     private String bz;
     private String finishcontent;
+    
+    private List<TaskPageResponseVM> taskItems;
 }

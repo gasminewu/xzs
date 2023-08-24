@@ -10,9 +10,21 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
     <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="create_user_name" jdbcType="VARCHAR" property="createUserName" />
+    <result column="tasktimestart" jdbcType="TIMESTAMP" property="tasktimestart" />
+    <result column="tasktimeend" jdbcType="TIMESTAMP" property="tasktimeend" />
+    <result column="finishtime" jdbcType="TIMESTAMP" property="finishtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="process" jdbcType="INTEGER" property="process" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="sn" jdbcType="INTEGER" property="sn" />
+    <result column="tasktype" jdbcType="INTEGER" property="tasktype" />
   </resultMap>
   <sql id="Base_Column_List">
     id, title, grade_level, frame_text_content_id, create_user, create_time, deleted,
+    tasktimestart,tasktimeend,finishtime,status,process,priority,sn,tasktype,
     create_user_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -25,14 +37,6 @@
     delete from t_task_exam
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mindskip.xzs.domain.TaskExam" useGeneratedKeys="true" keyProperty="id" >
-    insert into t_task_exam (id, title, grade_level,
-      frame_text_content_id, create_user, create_time,
-      deleted, create_user_name)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{gradeLevel,jdbcType=INTEGER},
-      #{frameTextContentId,jdbcType=INTEGER}, #{createUser,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-      #{deleted,jdbcType=BIT}, #{createUserName,jdbcType=VARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.mindskip.xzs.domain.TaskExam" useGeneratedKeys="true" keyProperty="id" >
     insert into t_task_exam
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,6 +64,30 @@
       <if test="createUserName != null">
         create_user_name,
       </if>
+       <if test="tasktimestart != null">
+	tasktimestart,
+  </if>
+   <if test="tasktimeend != null">
+	tasktimeend,
+  </if>
+   <if test="finishtime != null">
+	finishtime,
+  </if>
+   <if test="status != null">
+	status,
+  </if>
+   <if test="process != null">
+	process,
+  </if>
+   <if test="priority != null">
+	priority,
+  </if>
+   <if test="sn != null">
+	sn,
+  </if>
+   <if test="tasktype != null">
+	tasktype,
+  </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -86,6 +114,30 @@
       <if test="createUserName != null">
         #{createUserName,jdbcType=VARCHAR},
       </if>
+      <if test="tasktimestart != null">
+	#{tasktimestart,jdbcType=INTEGER},
+  </if>
+   <if test="tasktimeend != null">
+	#{tasktimeend,jdbcType=INTEGER},
+  </if>
+   <if test="finishtime != null">
+	#{finishtime,jdbcType=INTEGER},
+  </if>
+   <if test="status != null">
+	#{status,jdbcType=INTEGER},
+  </if>
+   <if test="process != null">
+	#{process,jdbcType=INTEGER},
+  </if>
+   <if test="priority != null">
+	#{priority,jdbcType=INTEGER},
+  </if>
+   <if test="sn != null">
+	#{sn,jdbcType=INTEGER},
+  </if>
+   <if test="tasktype != null">
+	#{tasktype,jdbcType=INTEGER},
+  </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mindskip.xzs.domain.TaskExam">
@@ -112,18 +164,31 @@
       <if test="createUserName != null">
         create_user_name = #{createUserName,jdbcType=VARCHAR},
       </if>
+      <if test="tasktimestart != null">
+	tasktimestart=#{tasktimestart,jdbcType=INTEGER},
+  </if>
+   <if test="tasktimeend != null">
+	tasktimeend=#{tasktimeend,jdbcType=INTEGER},
+  </if>
+   <if test="finishtime != null">
+	finishtime=#{finishtime,jdbcType=INTEGER},
+  </if>
+   <if test="status != null">
+	status=#{status,jdbcType=INTEGER},
+  </if>
+   <if test="process != null">
+	process=#{process,jdbcType=INTEGER},
+  </if>
+   <if test="priority != null">
+	priority=#{priority,jdbcType=INTEGER},
+  </if>
+   <if test="sn != null">
+	sn=#{sn,jdbcType=INTEGER},
+  </if>
+   <if test="tasktype != null">
+	tasktype=#{tasktype,jdbcType=INTEGER},
+  </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.mindskip.xzs.domain.TaskExam">
-    update t_task_exam
-    set title = #{title,jdbcType=VARCHAR},
-      grade_level = #{gradeLevel,jdbcType=INTEGER},
-      frame_text_content_id = #{frameTextContentId,jdbcType=INTEGER},
-      create_user = #{createUser,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT},
-      create_user_name = #{createUserName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -143,6 +208,21 @@
       <if test="gradeLevel != null">
         and grade_level = #{gradeLevel}
       </if>
+      <if test="status != null">
+        and status = #{status}
+      </if>
+      <if test="priority != null">
+        and priority = #{priority}
+      </if>
+       <if test="tasktype != null">
+        and tasktype = #{tasktype}
+      </if>
+      <if test="timetype != null and timetype == 1">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>0
+      </if>
+      <if test="timetype != null and timetype == 2">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>0
+      </if>
     </where>
   </select>
 
@@ -154,5 +234,12 @@
     where deleted='f'
     and grade_level = #{gradeLevel,jdbcType=INTEGER}
   </select>
-
+  <!-- 根据书籍主键查询所有的任务-->
+  <select id="selectListByBookId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select
+    <include refid="Base_Column_List" />
+    from t_task_exam b
+    where  exists(select 1 from  t_task_exam_relation r where  b.id=r.task_exam_id and r.relationid =#{relationid,jdbcType=INTEGER})  
+  </select>
+  
 </mapper>

@@ -4,7 +4,14 @@ const state = {
     tfEnum: [{ key: 0, value: '否' }, { key: 1, value: '是' }],
     sexEnum: [{ key: 1, value: '男' }, { key: 2, value: '女' }],
     statusEnum: [{ key: 1, value: '启用' }, { key: 2, value: '禁用' }],
-    levelEnum: [{ key: 1, value: '绘本' }, { key: 2, value: '运动' }, { key: 3, value: '古诗' }, { key: 4, value: '语文' }, { key: 5, value: '数学' }],
+    levelEnum: [
+      { key: 1, value: '绘本' },
+      { key: 2, value: '运动' },
+      { key: 3, value: '古诗' },
+      { key: 4, value: '语文' },
+      { key: 6, value: '英语' },
+      { key: 5, value: '数学' }
+    ],
     roleEnum: [{ key: 1, value: '学生' }, { key: 2, value: '教师' }, { key: 3, value: '管理员' }],
     statusTag: [{ key: 1, value: 'success' }, { key: 2, value: 'danger' }],
     statusBtn: [{ key: 1, value: '禁用' }, { key: 2, value: '启用' }]
@@ -28,6 +35,12 @@ const state = {
       { key: 'America', value: '美国' }],
     statusEnum: [{ key: 1, value: '正常' }, { key: 2, value: '归档' }, { key: 3, value: '计划购买' }],
     buyEnum: [{ key: 1, value: '购买' }, { key: 2, value: '借阅' }]
+  },
+  task: {
+    priorityEnum: [{ key: 1, value: '普通' }, { key: 2, value: '一般' }, { key: 3, value: '较高' }],
+    statusEnum: [{ key: 1, value: '正常' }, { key: 2, value: '归档' }],
+    timetypeEnum: [{ key: 1, value: '已开始' }, { key: 2, value: '未开始' }],
+    taskTypeEnum: [{ key: 0, value: '普通' }, { key: 1, value: '书籍' }, { key: 2, value: '知识点' }, { key: 3, value: '试卷' }]
   }
 }
 

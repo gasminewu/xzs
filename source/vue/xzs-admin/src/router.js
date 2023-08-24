@@ -183,7 +183,7 @@ const constantRoutes = [
         component: () => import('@/views/education/subject/edit'),
         name: 'EducationSubjectEditPage',
         meta: { title: '模块编辑', noCache: true, activeMenu: '/education/subject/list' },
-        hidden: false
+        hidden: true
       }
     ]
   },
@@ -224,8 +224,8 @@ const constantRoutes = [
     component: Layout,
     name: 'DayPage',
     meta: {
-      title: '每日管理',
-      icon: 'day'
+      title: '日程',
+      icon: 'task'
     },
     alwaysShow: true,
     children: [
@@ -233,34 +233,14 @@ const constantRoutes = [
         path: 'list',
         component: () => import('@/views/day/list'),
         name: 'DayPage',
-        meta: { title: '任务列表', noCache: true }
+        meta: { title: '日程列表', noCache: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/day/edit'),
         name: 'DayEditPage',
-        meta: { title: '书籍编辑', noCache: true, activeMenu: '/day/list' },
+        meta: { title: '日程编辑', noCache: true, activeMenu: '/day/list' },
         hidden: false
-      }
-    ]
-  },
-  {
-    path: '*',
-    component: Layout,
-    name: 'AlarmPage',
-    hidden: true,
-    meta: {
-      title: '闹铃管理',
-      icon: 'alarm'
-    },
-    alwaysShow: true,
-    children: [
-      {
-        path: '*',
-        component: () => import('@/views/alarm/edit'),
-        name: 'AlarmPageEdit',
-        meta: { title: '闹铃', noCache: true },
-        hidden: true
       }
     ]
   },

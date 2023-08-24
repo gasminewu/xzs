@@ -5,8 +5,8 @@
       <el-form-item label="模块：" required>
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="阶段：" required>
-        <el-select v-model="form.level" placeholder="阶段">
+      <el-form-item label="项目：" required>
+        <el-select v-model="form.level" placeholder="项目">
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>

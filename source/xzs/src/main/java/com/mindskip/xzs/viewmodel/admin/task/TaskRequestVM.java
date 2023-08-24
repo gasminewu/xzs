@@ -1,14 +1,18 @@
 package com.mindskip.xzs.viewmodel.admin.task;
 
-import com.mindskip.xzs.viewmodel.admin.exam.ExamResponseVM;
-
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+
+import com.mindskip.xzs.viewmodel.admin.book.BookResponseVM;
+import com.mindskip.xzs.viewmodel.admin.exam.ExamResponseVM;
+
+import lombok.Data;
 
 
+@Data
 public class TaskRequestVM {
 
     private Integer id;
@@ -19,9 +23,41 @@ public class TaskRequestVM {
     @NotNull
     private String title;
 
-    @Size(min = 1, message = "请添加试卷")
+    @Size(min = 0, message = "请添加试卷")
     @Valid
     private List<ExamResponseVM> paperItems;
+    
+    @Size(min = 0, message = "请添加书籍")
+    @Valid
+    private List<BookResponseVM> bookItems;
+    /**
+     * 任务时间
+     */
+    private List<String> limitDateTime;
+    /**
+     * 任务进度（百分比
+     */
+    private Integer process;
+    /**
+     * 优先级（普通，较高，最高）
+     */
+    private Integer priority;
+    /**
+     * 顺序号
+     */
+    private Integer sn;
+    /**
+     * 任务类别
+     */
+    private Integer tasktype;
+    /**
+     * 状态
+     */
+    private Integer status;
+    /**
+     * 任务描述
+     */
+    private String taskcontent;
 
     public Integer getId() {
         return id;

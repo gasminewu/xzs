@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mindskip.xzs.repository.TaskExamRelationMapper">
+  <resultMap id="BaseResultMap" type="com.mindskip.xzs.domain.TaskExamRelation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="relationid" jdbcType="INTEGER" property="relationid" />
+    <result column="task_exam_id" jdbcType="INTEGER" property="taskExamId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, relationid, task_exam_id
+  </sql>
+  
+  <!-- 根据任务主键查询所有的关联-->
+  <delete id="deleteByTaskExamId">
+    delete from t_task_exam_relation
+    where task_exam_id = #{taskExamId,jdbcType=INTEGER}
+  </delete>
+ 
+  <!-- 批量插入-->
+  <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_task_exam_relation ( relationid, task_exam_id)
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      ( #{item.relationid,jdbcType=INTEGER}, #{item.taskExamId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+<!-- 根据任务主键查询所有关联对象主键-->
+  <select id="selectListByTaskExamId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select
+    <include refid="Base_Column_List" />
+    from t_task_exam_relation 
+    where  task_exam_id = #{taskExamId,jdbcType=INTEGER}
+  </select>
+</mapper>

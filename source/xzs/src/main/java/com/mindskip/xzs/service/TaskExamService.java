@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 public interface TaskExamService extends BaseService<TaskExam> {
 
     PageInfo<TaskExam> page(TaskPageRequestVM requestVM);
@@ -17,4 +19,11 @@ public interface TaskExamService extends BaseService<TaskExam> {
     TaskRequestVM taskExamToVM(Integer id);
 
     List<TaskExam> getByGradeLevel(Integer gradeLevel);
+   
+    /**
+     * 导出
+     * @param requestVM
+     * @param response
+     */
+    void exportExcel(TaskPageRequestVM requestVM,HttpServletResponse response);
 }
