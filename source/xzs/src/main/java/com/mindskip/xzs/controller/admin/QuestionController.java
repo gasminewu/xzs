@@ -39,7 +39,9 @@ public class QuestionController extends BaseApiController {
         PageInfo<QuestionResponseVM> page = PageInfoHelper.copyMap(pageInfo, q -> {
             QuestionResponseVM vm = modelMapper.map(q, QuestionResponseVM.class);
             vm.setCreateTime(DateTimeUtil.dateFormat(q.getCreateTime()));
-            vm.setScore(ExamUtil.scoreToVM(q.getScore()));
+            if(null!=q.getScore()) {
+            	vm.setScore(ExamUtil.scoreToVM(q.getScore()));
+            }
             TextContent textContent = textContentService.selectById(q.getInfoTextContentId());
             QuestionObject questionObject = JsonUtil.toJsonObject(textContent.getContent(), QuestionObject.class);
             String clearHtml = HtmlUtil.clear(questionObject.getTitleContent());

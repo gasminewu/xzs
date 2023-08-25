@@ -213,35 +213,36 @@ public class TaskExamServiceImpl extends BaseServiceImpl<TaskExam> implements Ta
     public List<TaskExam> getByGradeLevel(Integer gradeLevel) {
         return taskExamMapper.getByGradeLevel(gradeLevel);
     }
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes", "serial" })
 	@Override
     public void exportExcel(TaskPageRequestVM requestVM,HttpServletResponse response) {
     	//条件：需要导出的表头信息
-		List<Map<String,String>> titleList=new ArrayList<>();
-		//表头封装（采用树结构,使用pid判断是否有子集）
-        Map<String,String> titleMap=new HashMap<String,String>();
-        titleMap.put("id","0");
-		titleMap.put("content", "序号");
-		titleMap.put("fielName", "xh");
-		titleMap.put("pid", "0");
-		titleList.add(titleMap);
-		
-		titleMap.put("id","1");
-		titleMap.put("content", "任务");
-		titleMap.put("fielName", "title");
-		titleMap.put("pid", "0");
-		titleList.add(titleMap);
-		Map<String,String> titleMap2=new HashMap<String,String>();
-		titleMap2.put("id","2");
-		titleMap2.put("content", "是否完成");
-		titleMap2.put("fielName", "sfwc");
-		titleMap2.put("pid", "0");
-		titleList.add(titleMap2);
-	    
+    	//表头封装（采用树结构,使用pid判断是否有子集）
+		List<Map<String,String>> titleList=new ArrayList<Map<String,String>>() {{
+			add(new HashMap<String, String>(){{
+	        	put("id","1");
+	        	put("content","序号");
+	        	put("fielName","xh");
+	        	put("pid","0");
+	        }});
+			add(new HashMap<String, String>(){{
+	        	put("id","2");
+	        	put("content","任务");
+	        	put("fielName","title");
+	        	put("pid","0");
+	        }});
+			add(new HashMap<String, String>(){{
+	        	put("id","3");
+	        	put("content","是否完成");
+	        	put("fielName","sfwc");
+	        	put("pid","0");
+	        }});
+		}};
+	    //查询要导出的数据
 		List<TaskExam> tasks=taskExamMapper.page(requestVM);
 		
         try {
-        	ExcelTool excelTool = new ExcelTool();
+        	ExcelTool excelTool = new ExcelTool("rewr",30,20,DateTimeUtil.STANDER_SHORT_FORMAT);
         	List<Column>  titleData=excelTool.columnTransformer(titleList,"id","pid","content","fielName","0");
         	excelTool.exportExcel(titleData,tasks,"E:\\04临时文件\\"+DateTimeUtil.dateFormatFull(new Date())+".xlsx",true,false);
 //        	excelTool.exportExcel(titleData,tasks,"个性化办件导出",true,false,response);

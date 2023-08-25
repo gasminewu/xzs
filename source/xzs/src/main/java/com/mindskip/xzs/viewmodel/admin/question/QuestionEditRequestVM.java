@@ -32,7 +32,6 @@ public class QuestionEditRequestVM {
     private List<String> correctArray;
 
     private String correct;
-    @NotBlank
     private String score;
 
     @Range(min = 1, max = 5, message = "请选择题目难度")

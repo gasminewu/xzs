@@ -1,27 +1,21 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="阶段：" prop="gradeLevel" required>
-        <el-select v-model="form.gradeLevel"   placeholder="年级"  @change="levelChange">
+      <el-form-item label="项目：" prop="gradeLevel" required>
+        <el-select v-model="form.gradeLevel"   placeholder="项目"  @change="levelChange">
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="模块：" prop="subjectId" required>
-        <el-select v-model="form.subjectId" placeholder="学科" >
+        <el-select v-model="form.subjectId" placeholder="模块" >
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="题干：" prop="title" required>
+      <el-form-item label="知识点：" prop="title" required>
         <el-input v-model="form.title"   @focus="inputClick(form,'title')" />
       </el-form-item>
-      <el-form-item label="答案：" prop="correct" required>
-        <el-input v-model="form.correct"   @focus="inputClick(form,'correct')" />
-      </el-form-item>
-      <el-form-item label="解析：" prop="analyze" required>
+      <el-form-item label="详细：" prop="analyze" required>
         <el-input v-model="form.analyze"  @focus="inputClick(form,'analyze')" />
-      </el-form-item>
-      <el-form-item label="分数：" prop="score" required>
-        <el-input-number v-model="form.score" :precision="1" :step="1" :max="100"></el-input-number>
       </el-form-item>
       <el-form-item label="难度：" required>
         <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
@@ -59,36 +53,28 @@ export default {
     return {
       form: {
         id: null,
-        questionType: 5,
+        questionType: 6,
         gradeLevel: null,
         subjectId: null,
         title: '',
         items: [],
         analyze: '',
-        correct: '',
-        score: '',
         difficult: 0
       },
       subjectFilter: null,
       formLoading: false,
       rules: {
         gradeLevel: [
-          { required: true, message: '请选择年级', trigger: 'change' }
+          { required: true, message: '请选择项目', trigger: 'change' }
         ],
         subjectId: [
-          { required: true, message: '请选择学科', trigger: 'change' }
+          { required: true, message: '请选择模块', trigger: 'change' }
         ],
         title: [
-          { required: true, message: '请输入题干', trigger: 'blur' }
-        ],
-        correct: [
-          { required: true, message: '请输入答案', trigger: 'blur' }
+          { required: true, message: '请输入知识点', trigger: 'blur' }
         ],
         analyze: [
-          { required: true, message: '请输入解析', trigger: 'blur' }
-        ],
-        score: [
-          { required: true, message: '请输入分数', trigger: 'blur' }
+          { required: true, message: '请输入详细', trigger: 'blur' }
         ]
       },
       richEditor: {
@@ -171,8 +157,6 @@ export default {
         title: '',
         items: [],
         analyze: '',
-        correct: '',
-        score: '',
         difficult: 0
       }
       this.form.id = lastId

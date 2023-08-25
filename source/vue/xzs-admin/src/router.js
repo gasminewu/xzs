@@ -37,9 +37,35 @@ const constantRoutes = [
     ]
   },
   {
+    path: '/day',
+    component: Layout,
+    name: 'DayPage',
+    meta: {
+      title: '日程',
+      icon: 'task'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/day/list'),
+        name: 'DayPage',
+        meta: { title: '日程列表', noCache: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/day/edit'),
+        name: 'DayEditPage',
+        meta: { title: '日程编辑', noCache: true, activeMenu: '/day/list' },
+        hidden: false
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     name: 'UserPage',
+    hidden: true,
     meta: {
       title: '用户管理',
       icon: 'users'
@@ -135,55 +161,39 @@ const constantRoutes = [
         name: 'shortAnswerPage',
         meta: { title: '简答题编辑', noCache: true, activeMenu: '/exam/question/list' },
         hidden: false
+      },
+      {
+        path: 'question/edit/knowledge',
+        component: () => import('@/views/exam/question/edit/knowledge'),
+        name: 'knowledgePage',
+        meta: { title: '知识点', noCache: true, activeMenu: '/exam/question/list' },
+        hidden: false
       }
     ]
   },
   {
     path: '/task',
     component: Layout,
+    hidden: true,
     name: 'TaskPage',
     meta: {
       title: '任务管理',
       icon: 'task'
     },
-    alwaysShow: true,
     children: [
       {
         path: 'list',
         component: () => import('@/views/task/list'),
         name: 'TaskListPage',
+        hidden: false,
         meta: { title: '任务列表', noCache: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/task/edit'),
         name: 'TaskEditPage',
+        hidden: false,
         meta: { title: '任务创建', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/education',
-    component: Layout,
-    name: 'EducationPage',
-    meta: {
-      title: '模块管理',
-      icon: 'education'
-    },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'subject/list',
-        component: () => import('@/views/education/subject/list'),
-        name: 'EducationSubjectPage',
-        meta: { title: '模块列表', noCache: true }
-      },
-      {
-        path: 'subject/edit',
-        component: () => import('@/views/education/subject/edit'),
-        name: 'EducationSubjectEditPage',
-        meta: { title: '模块编辑', noCache: true, activeMenu: '/education/subject/list' },
-        hidden: true
       }
     ]
   },
@@ -220,31 +230,6 @@ const constantRoutes = [
     ]
   },
   {
-    path: '/day',
-    component: Layout,
-    name: 'DayPage',
-    meta: {
-      title: '日程',
-      icon: 'task'
-    },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/day/list'),
-        name: 'DayPage',
-        meta: { title: '日程列表', noCache: true }
-      },
-      {
-        path: 'edit',
-        component: () => import('@/views/day/edit'),
-        name: 'DayEditPage',
-        meta: { title: '日程编辑', noCache: true, activeMenu: '/day/list' },
-        hidden: false
-      }
-    ]
-  },
-  {
     path: '/answer',
     component: Layout,
     name: 'AnswerPage',
@@ -263,9 +248,35 @@ const constantRoutes = [
     ]
   },
   {
+    path: '/education',
+    component: Layout,
+    name: 'EducationPage',
+    meta: {
+      title: '模块管理',
+      icon: 'education'
+    },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'subject/list',
+        component: () => import('@/views/education/subject/list'),
+        name: 'EducationSubjectPage',
+        meta: { title: '模块列表', noCache: true }
+      },
+      {
+        path: 'subject/edit',
+        component: () => import('@/views/education/subject/edit'),
+        name: 'EducationSubjectEditPage',
+        meta: { title: '模块编辑', noCache: true, activeMenu: '/education/subject/list' },
+        hidden: true
+      }
+    ]
+  },
+  {
     path: '/message',
     component: Layout,
     name: 'MessagePage',
+    hidden: true,
     meta: {
       title: '消息中心',
       icon: 'message'
@@ -290,6 +301,7 @@ const constantRoutes = [
     path: '/log',
     component: Layout,
     name: 'LogPage',
+    hidden: true,
     meta: {
       title: '日志中心',
       icon: 'log'
@@ -307,7 +319,7 @@ const constantRoutes = [
   {
     path: '/profile',
     component: Layout,
-    hidden: false,
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -318,7 +330,7 @@ const constantRoutes = [
     ]
   },
   { path: '*',
-    hidden: false,
+    hidden: true,
     component: () => import('@/views/error-page/404'),
     meta: { title: '404', noCache: true }
   }

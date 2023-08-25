@@ -36,10 +36,14 @@ public class DashboardController extends BaseApiController {
     public RestResponse<IndexVM> Index() {
         IndexVM vm = new IndexVM();
 
-        Integer examPaperCount = examPaperService.selectAllCount();
-        Integer questionCount = questionService.selectAllCount();
-        Integer doExamPaperCount = examPaperAnswerService.selectAllCount();
-        Integer doQuestionCount = examPaperQuestionCustomerAnswerService.selectAllCount();
+        Integer examPaperCount = 0;
+        Integer questionCount = 0;
+        Integer doExamPaperCount =0;
+        Integer doQuestionCount = 0;
+//        Integer examPaperCount = examPaperService.selectAllCount();
+//        Integer questionCount = questionService.selectAllCount();
+//        Integer doExamPaperCount = examPaperAnswerService.selectAllCount();
+//        Integer doQuestionCount = examPaperQuestionCustomerAnswerService.selectAllCount();
 
         vm.setExamPaperCount(examPaperCount);
         vm.setQuestionCount(questionCount);
