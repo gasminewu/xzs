@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="书名：">
-        <el-input v-model="queryParam.title" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="项目：">
-        <el-select v-model="queryParam.level" placeholder="项目"  @change="levelChange" clearable>
+      <el-form-item label="阶段：">
+        <el-select v-model="queryParam.level" placeholder="阶段"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -15,15 +12,13 @@
                      :label="item.name+' ( '+item.levelName+' )'"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="拼音：">
-        <el-select v-model="queryParam.pinyin" clearable>
-          <el-option v-for="item in pinyinEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-        </el-select>
-      </el-form-item>
        <el-form-item label="状态：">
         <el-select v-model="queryParam.status" clearable>
           <el-option v-for="item in statusEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
+      </el-form-item>
+       <el-form-item label="知识点：">
+        <el-input v-model="queryParam.title" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">查询</el-button>
@@ -35,10 +30,8 @@
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
       <el-table-column prop="sn" label="顺序号" width="70px"/>
       <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="200px"/>
-      <el-table-column prop="title" label="书名" show-overflow-tooltip/>
-      <el-table-column prop="pinyin" label="拼音" :formatter="pinyinFormatter" width="50px"/>
-      <el-table-column prop="parentid" label="套装" :formatter="setFormatter" width="50px"/>
-      <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="50px"/>
+      <el-table-column prop="title" label="知识点" show-overflow-tooltip/>
+      <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="70px"/>
       <el-table-column prop="createTime" label="创建时间" width="100px"/>
       <el-table-column label="操作" align="center" width="326px">
         <template slot-scope="{row}">
@@ -49,9 +42,6 @@
           <router-link :to="{path:'/book/finish', query:{id:row.id}}" class="link-left">
             <el-button size="mini">状态</el-button>
           </router-link>
-           <router-link :to="{path:'/book/edit', query:{parentid: row.id}}" class="link-left" v-if="!row.parentid" >
-          <el-button size="mini">套装</el-button>
-        </router-link>
         </template>
       </el-table-column>
     </el-table>
@@ -75,7 +65,7 @@ export default {
         questionType: null,
         level: null,
         subjectId: null,
-        status: 1,
+        status: null,
         pageIndex: 1,
         pageSize: 10
       },

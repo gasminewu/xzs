@@ -2,8 +2,8 @@
   <div class="app-container">
 
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="项目：" prop="gradeLevel"  required>
-        <el-select v-model="form.gradeLevel" placeholder="项目" @change="levelChange" >
+      <el-form-item label="阶段：" prop="gradeLevel"  required>
+        <el-select v-model="form.gradeLevel" placeholder="阶段" @change="levelChange" >
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -40,12 +40,10 @@
         </el-select>
       </el-form-item>
       <!--++++++++++++++++++++++++book start+++++++++++++++++++++++++++++++++++-->
-      <el-form-item label="书籍："  required v-show="form.tasktype===1">
+      <el-form-item label="知识点："  required v-show="form.tasktype===1">
         <el-table  :data="form.bookItems" border fit highlight-current-row style="width: 100%">
           <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="120px" />
-          <el-table-column prop="title" label="书名"  />
-            <el-table-column prop="pinyin" label="拼音" :formatter="pinyinFormatter" width="50px"/>
-      <el-table-column prop="parentid" label="套装" :formatter="setFormatter" width="50px"/>
+          <el-table-column prop="title" label="知识点"  />
       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="80px"/>
       <el-table-column prop="createTime" label="创建时间" width="150px"/>
           <el-table-column  label="操作" align="center"  width="160px">
@@ -73,7 +71,7 @@
         <el-button type="primary" @click="submitForm">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
         <el-button type="success" @click="addPaper" v-show="form.tasktype===3">添加试卷</el-button>
-        <el-button type="success" @click="addBook" v-show="form.tasktype===1">添加书籍</el-button>
+        <el-button type="success" @click="addBook" v-show="form.tasktype===1">添加知识点</el-button>
       </el-form-item>
     </el-form>
     <!--++++++++++++++++++++++++book start+++++++++++++++++++++++++++++++++++***************-->
@@ -86,7 +84,7 @@
         </el-form-item>
          <el-form-item label="状态：">
         <el-select v-model="bookPage.queryParam.status" clearable>
-          <el-option v-for="item in statusEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+          <el-option v-for="item in bookstatusEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
         <el-form-item>
@@ -96,10 +94,8 @@
       <el-table v-loading="bookPage.listLoading" :data="bookPage.tableData"
                 @selection-change="handleSelectionChangeBook" border fit highlight-current-row style="width: 100%">
         <el-table-column type="selection" width="45"></el-table-column>
-        <el-table-column prop="subjectId" label="学科" :formatter="subjectFormatter" width="150px" />
-        <el-table-column prop="title" label="书名"  />
-          <el-table-column prop="pinyin" label="拼音" :formatter="pinyinFormatter" width="50px"/>
-      <el-table-column prop="parentid" label="套装" :formatter="setFormatter" width="50px"/>
+        <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="150px" />
+        <el-table-column prop="title" label="知识点"  />
       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="80px"/>
       <el-table-column prop="createTime" label="创建时间" width="150px"/>
       </el-table>
@@ -115,7 +111,7 @@
     <!-----------------------------------------paper start--------------------------------------------->
     <el-dialog :visible.sync="paperPage.showDialog" width="70%">
       <el-form :model="paperPage.queryParam" ref="queryForm" :inline="true">
-        <el-form-item label="学科：" >
+        <el-form-item label="模块：" >
           <el-select v-model="paperPage.queryParam.subjectId"  clearable>
             <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
           </el-select>
@@ -128,7 +124,7 @@
                 @selection-change="handleSelectionChange" border fit highlight-current-row style="width: 100%">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="id" label="Id" width="90px"/>
-        <el-table-column prop="subjectId" label="学科" :formatter="subjectFormatter" width="120px" />
+        <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="120px" />
         <el-table-column prop="name" label="名称"  />
         <el-table-column prop="createTime" label="创建时间" width="160px"/>
       </el-table>
@@ -184,7 +180,6 @@ export default {
         queryParam: {
           subjectId: null,
           level: null,
-          paperType: 6,
           pageIndex: 1,
           pageSize: 5
         },

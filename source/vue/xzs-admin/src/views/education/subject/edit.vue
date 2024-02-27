@@ -2,13 +2,16 @@
   <div class="app-container">
 
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading">
+        <el-form-item label="阶段：" required>
+        <el-select v-model="form.level" placeholder="阶段">
+          <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="模块：" required>
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item label="项目：" required>
-        <el-select v-model="form.level" placeholder="项目">
-          <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
-        </el-select>
+      <el-form-item label="排序：" required>
+        <el-input v-model="form.itemOrder"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">提交</el-button>

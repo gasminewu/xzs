@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParam" ref="queryForm" :inline="true">
-      <el-form-item label="项目：">
-        <el-select v-model="queryParam.gradeLevel" placeholder="项目" clearable>
+      <el-form-item label="阶段：">
+        <el-select v-model="queryParam.gradeLevel" placeholder="阶段" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -42,8 +42,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题" />
-      <el-table-column prop="gradeLevel" label="项目"  :formatter="levelFormatter" width="150"/>
-       <el-table-column  label="时间" align="center" width="100"><template slot-scope="scope">
+      <el-table-column prop="gradeLevel" label="阶段"  :formatter="levelFormatter" width="80"/>
+       <el-table-column  label="时间" align="center" width="80"><template slot-scope="scope">
           <el-popover placement="top" trigger="hover">
             <div style="padding:10px">开始时间: {{ scope.row.tasktimestart }}</div>
             <div style="padding:10px">结束时间：{{scope.row.tasktimeend }}</div>
@@ -55,9 +55,10 @@
           </el-popover>
      </template>
       </el-table-column>
+      <el-table-column prop="tasktimestart" label="开始时间"  width="100px"/>
+      <el-table-column prop="finishtime" label="归档时间"  width="100px"/>
       <el-table-column prop="priority" label="优先级" :formatter="priorityFormatter" width="70px"/>
-      <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="50px"/>
-      <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="50px"/>
+      <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="60px"/>
       <el-table-column  label="操作" align="center"  width="160px">
         <template slot-scope="{row}">
           <el-button size="mini" @click="$router.push({path:'/day/edit',query:{id:row.id}})" >编辑</el-button>
@@ -81,8 +82,8 @@ export default {
     return {
       queryParam: {
         gradeLevel: null,
-        status: 1,
-        timetype: 1,
+        status: null,
+        timetype: null,
         pageIndex: 1,
         pageSize: 10
       },

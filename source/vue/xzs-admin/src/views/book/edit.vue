@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form :model="form" ref="form" label-width="100px" v-loading="formLoading" :rules="rules">
-      <el-form-item label="项目：" prop="gradeLevel" required>
-        <el-select v-model="form.gradeLevel" placeholder="项目"  @change="levelChange" clearable>
+      <el-form-item label="阶段：" prop="gradeLevel" required>
+        <el-select v-model="form.gradeLevel" placeholder="阶段"  @change="levelChange" clearable>
           <el-option v-for="item in levelEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -11,37 +11,38 @@
           <el-option v-for="item in subjectFilter" :key="item.id" :value="item.id" :label="item.name+' ( '+item.levelName+' )'"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="书名：" prop="title" required>
+      <el-form-item label="知识点：" prop="title" required>
         <el-input v-model="form.title" />
       </el-form-item>
-     <el-form-item label="作者：" prop="autor" required>
+ <el-form-item label="作者：" prop="autor" v-show="form.tasktype===1">
         <el-input v-model="form.autor"   />
       </el-form-item>
-      <el-form-item label="难度：" >
-        <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
-      </el-form-item>
-       <el-form-item label="喜欢程度：" >
+        <el-form-item label="喜欢程度：" v-show="form.tasktype===1">
         <el-rate v-model="form.lovel" class="question-item-rate"></el-rate>
       </el-form-item>
-      <el-form-item label="拼音：" prop="pinyin" required>
+      <el-form-item label="拼音：" prop="pinyin" v-show="form.tasktype===1">
         <el-radio-group v-model="form.pinyin">
           <el-radio  v-for="item in pinyinEnum"  :key="item.key"  :label="item.key">{{item.value}}</el-radio>
         </el-radio-group>
       </el-form-item>
-       <el-form-item label="国家：" prop="nation" >
+       <el-form-item label="国家：" prop="nation" v-show="form.tasktype===1">
         <el-select v-model="form.nation" placeholder="国家"   clearable>
           <el-option v-for="item in nationEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
-        <el-form-item label="拥有方式：" prop="buy" required>
+        <el-form-item label="拥有方式：" prop="buy" v-show="form.tasktype===1">
          <el-radio-group v-model="form.buy">
           <el-radio  v-for="item in buyEnum"  :key="item.key"  :label="item.key">{{item.value}}</el-radio>
         </el-radio-group>
       </el-form-item>
+
+      <el-form-item label="难度：" >
+        <el-rate v-model="form.difficult" class="question-item-rate"></el-rate>
+      </el-form-item>
          <el-form-item label="顺序号：" prop="sn" >
         <el-input-number v-model="form.sn" :precision="0" :step="1" :max="20000"></el-input-number>
       </el-form-item>
-      <el-form-item label="备注说明：" prop="bz">
+      <el-form-item label="详细说明：" prop="bz">
         <el-input v-model="form.bz"  @focus="inputClick(form,'bz')" />
       </el-form-item>
        <el-form-item label="任务：" >

@@ -161,13 +161,6 @@ const constantRoutes = [
         name: 'shortAnswerPage',
         meta: { title: '简答题编辑', noCache: true, activeMenu: '/exam/question/list' },
         hidden: false
-      },
-      {
-        path: 'question/edit/knowledge',
-        component: () => import('@/views/exam/question/edit/knowledge'),
-        name: 'knowledgePage',
-        meta: { title: '知识点', noCache: true, activeMenu: '/exam/question/list' },
-        hidden: false
       }
     ]
   },
@@ -202,7 +195,7 @@ const constantRoutes = [
     component: Layout,
     name: 'BookPage',
     meta: {
-      title: '书籍管理',
+      title: '知识库',
       icon: 'education'
     },
     alwaysShow: true,
@@ -211,13 +204,13 @@ const constantRoutes = [
         path: 'list',
         component: () => import('@/views/book/list'),
         name: 'BookPage',
-        meta: { title: '书籍列表', noCache: true }
+        meta: { title: '知识列表', noCache: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/book/edit'),
         name: 'BookEditPage',
-        meta: { title: '书籍编辑', noCache: true, activeMenu: '/book/list' },
+        meta: { title: '知识编辑', noCache: true, activeMenu: '/book/list' },
         hidden: false
       },
       {
@@ -232,6 +225,7 @@ const constantRoutes = [
   {
     path: '/answer',
     component: Layout,
+    hidden: true,
     name: 'AnswerPage',
     meta: {
       title: '成绩管理',
