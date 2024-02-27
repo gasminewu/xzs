@@ -12,6 +12,8 @@ public class SubjectResponseVM extends BaseVM {
     private Integer level;
 
     private String levelName;
+    
+    private Integer itemOrder;
 
     public Integer getId() {
         return id;
@@ -44,4 +46,12 @@ public class SubjectResponseVM extends BaseVM {
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
+
+	public Integer getItemOrder() {
+		return itemOrder;
+	}
+
+	public void setItemOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
+	}
 }

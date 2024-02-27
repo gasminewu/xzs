@@ -27,18 +27,13 @@ public class BookEditRequestVM {
     private Integer subjectId;
     @NotBlank
     private String title;
-    @NotBlank
     private String autor;
     
-    @Range(min = 1, max = 5, message = "请选择题目难度")
     private Integer difficult;
-    @Range(min = 1, max = 5, message = "请选择题目难度")
     private Integer lovel;
-    @NotNull
     private Integer pinyin;
     
     private String nation;
-    @NotNull
     private Integer buy;
     @NotNull
     private Integer status;

@@ -31,6 +31,10 @@ public class DateTimeUtil {
      * The constant STANDER_SHORT_FORMAT.
      */
     public static final String STANDER_SHORT_FORMAT = "yyyy-MM-dd";
+    /**
+     * The constant STANDER_SHORT_FORMAT.
+     */
+    public static final String STANDER_SHORT_MD = "MM月dd日";
 
     /**
      * Add duration date.
@@ -186,4 +190,54 @@ public class DateTimeUtil {
         int days = (int) ((endTime - startTime) / (1000 * 60 * 60 * 24));
         return days;
 	}
+    /**
+     * Date format string.
+     *
+     * @param date the date
+     * @return the string
+     */
+    public static String dateFormatMD(Date date) {
+    	if (null == date) {
+    		return "";
+    	}
+    	DateFormat dateFormat = new SimpleDateFormat(STANDER_SHORT_MD);
+    	return dateFormat.format(date);
+    }
+    /**
+     * 返回周
+     * 
+     * @param d
+     * @return
+     *
+     * @变更记录 2024年2月27日 下午4:18:51 武林林 创建
+     *
+     */
+    public static String getWeek(Date date) {
+    	String newStr=dateShortFormat(date);
+    	
+		HashMap<String, String > ret  = new HashMap<String, String>(){{  
+			put("2024-02-19","1");
+			put("2024-02-26","2");
+			put("2024-03-04","3");
+			put("2024-03-11","4");
+			put("2024-03-18","5");
+			put("2024-03-25","6");
+			put("2024-04-01","7");
+			put("2024-04-08","8");
+			put("2024-04-15","9");
+			put("2024-04-22","10");
+			put("2024-04-29","11");
+			put("2024-05-06","12");
+			put("2024-05-13","13");
+			put("2024-05-20","14");
+			put("2024-05-27","15");
+			put("2024-06-03","16");
+			put("2024-06-10","17");
+			put("2024-06-17","18");
+			put("2024-06-24","19");
+		}}; 
+
+    	return ret.get(newStr);
+    }
+
 }

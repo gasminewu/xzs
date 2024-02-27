@@ -19,6 +19,10 @@ public class SubjectEditRequestVM extends BaseVM {
 
     @NotBlank
     private String levelName;
+    
+    @NotNull
+    private Integer itemOrder;
+
 
     public Integer getId() {
         return id;
@@ -51,4 +55,13 @@ public class SubjectEditRequestVM extends BaseVM {
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
+
+	public Integer getItemOrder() {
+		return itemOrder;
+	}
+
+	public void setItemOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
+	}
+    
 }

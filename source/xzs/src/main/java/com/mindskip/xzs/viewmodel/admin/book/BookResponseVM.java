@@ -8,14 +8,14 @@ public class BookResponseVM extends BaseVM {
 	    private Integer gradeLevel;
 	    private Integer subjectId;
 	    private String title;
-	    private String autor;
+//	    private String autor;
 	    
 	    private Integer difficult;
-	    private Integer lovel;
-	    private Integer pinyin;
+//	    private Integer lovel;
+//	    private Integer pinyin;
 	    
-	    private String nation;
-	    private Integer buy;
+//	    private String nation;
+//	    private Integer buy;
 	    private Integer sn;
 	    private String bz;
 	    private String createTime;
@@ -50,41 +50,17 @@ public class BookResponseVM extends BaseVM {
 		public void setTitle(String title) {
 			this.title = title;
 		}
-		public String getAutor() {
-			return autor;
-		}
-		public void setAutor(String autor) {
-			this.autor = autor;
-		}
+//		public String getAutor() {
+//			return autor;
+//		}
+//		public void setAutor(String autor) {
+//			this.autor = autor;
+//		}
 		public Integer getDifficult() {
 			return difficult;
 		}
 		public void setDifficult(Integer difficult) {
 			this.difficult = difficult;
-		}
-		public Integer getLovel() {
-			return lovel;
-		}
-		public void setLovel(Integer lovel) {
-			this.lovel = lovel;
-		}
-		public Integer getPinyin() {
-			return pinyin;
-		}
-		public void setPinyin(Integer pinyin) {
-			this.pinyin = pinyin;
-		}
-		public String getNation() {
-			return nation;
-		}
-		public void setNation(String nation) {
-			this.nation = nation;
-		}
-		public Integer getBuy() {
-			return buy;
-		}
-		public void setBuy(Integer buy) {
-			this.buy = buy;
 		}
 		public Integer getSn() {
 			return sn;

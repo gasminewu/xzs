@@ -50,10 +50,10 @@ public class DashboardController extends BaseApiController {
         vm.setDoExamPaperCount(doExamPaperCount);
         vm.setDoQuestionCount(doQuestionCount);
 
-        List<Integer> mothDayUserActionValue = userEventLogService.selectMothCount();
-        List<Integer> mothDayDoExamQuestionValue = examPaperQuestionCustomerAnswerService.selectMothCount();
-        vm.setMothDayUserActionValue(mothDayUserActionValue);
-        vm.setMothDayDoExamQuestionValue(mothDayDoExamQuestionValue);
+//        List<Integer> mothDayUserActionValue = userEventLogService.selectMothCount();
+//        List<Integer> mothDayDoExamQuestionValue = examPaperQuestionCustomerAnswerService.selectMothCount();
+//        vm.setMothDayUserActionValue(mothDayUserActionValue);
+//        vm.setMothDayDoExamQuestionValue(mothDayDoExamQuestionValue);
 
         vm.setMothDayText(DateTimeUtil.MothDay());
         return RestResponse.ok(vm);

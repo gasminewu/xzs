@@ -223,6 +223,7 @@
       <if test="timetype != null and timetype == 2">
         and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>0
       </if>
+      order by tasktimestart desc,sn
     </where>
   </select>
 

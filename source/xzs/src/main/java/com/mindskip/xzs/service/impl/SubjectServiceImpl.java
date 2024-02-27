@@ -49,7 +49,7 @@ public class SubjectServiceImpl extends BaseServiceImpl<Subject> implements Subj
 
     @Override
     public PageInfo<Subject> page(SubjectPageRequestVM requestVM) {
-        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "level,id desc").doSelectPageInfo(() ->
+        return PageHelper.startPage(requestVM.getPageIndex(), requestVM.getPageSize(), "level,item_order asc").doSelectPageInfo(() ->
                 subjectMapper.page(requestVM)
         );
     }
