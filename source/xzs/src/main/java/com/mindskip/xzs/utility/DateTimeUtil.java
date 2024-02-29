@@ -1,13 +1,23 @@
 package com.mindskip.xzs.utility;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.Duration;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -214,7 +224,6 @@ public class DateTimeUtil {
      */
     public static String getWeek(Date date) {
     	String newStr=dateShortFormat(date);
-    	
 		HashMap<String, String > ret  = new HashMap<String, String>(){{  
 			put("2024-02-19","1");
 			put("2024-02-26","2");
@@ -239,5 +248,68 @@ public class DateTimeUtil {
 
     	return ret.get(newStr);
     }
-
+    /**
+     * 一个任务的开始时间和结束时间
+     * 
+     * @param type
+     * @return
+     *
+     * @变更记录 2024年2月29日 上午9:17:15 武林林 创建
+     *
+     */
+	@SuppressWarnings("unlikely-arg-type")
+	public static List<List<String>> listLimitDateTime6_1(String type) {
+    	List<List<String>> rets=new ArrayList<>();
+    	//1/6【周日早上，周日晚上，周一晚上，周二晚上，周四晚上，周六】，2/6 第二个周日，3/6一个月，4/6 3个月，5/6 6个月，6/6一年
+    	LocalDate nowDate=	LocalDate.now();
+    	//下周日
+    	LocalDate sundayDate=nowDate.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+    	//比下周日+7天 
+    	LocalDate sunday2=sundayDate.plusDays(7);
+    	//比下周日+7+30天 1个月
+    	LocalDate mouth=sundayDate.plusDays(7+30);
+    	//比下周日+7+30+90天 4个月
+    	LocalDate mouth3=sundayDate.plusDays(7+30+90);
+    	//比下周日+7+30+90+180天 10个月
+    	LocalDate mouth6=sundayDate.plusDays(7+30+90+180);
+    	//比下周日+7+30+90+180+365天 一年4个月
+    	LocalDate year=sundayDate.plusDays(7+30+90+180+365);
+    	
+    	int typeInt=Integer.parseInt(type);
+    	if(typeInt<=365) {
+    		//自由天数
+    		LocalDate addDay=nowDate.plusDays(typeInt);
+    		rets.add(Arrays.asList(addDay.toString(),addDay.plusDays(6).toString()));
+    	}else {
+    		//按照遗忘曲线
+    		if(Objects.equals('1', type.charAt(0))) {
+        		//111111 下周
+        		rets.add(Arrays.asList(sundayDate.toString(),sundayDate.plusDays(6).toString()));
+        	}
+        	if(Objects.equals('1', type.charAt(1))) {
+        		//2 
+        		rets.add(Arrays.asList(sunday2.toString(),sunday2.plusDays(6).toString()));
+        	}
+        	if(Objects.equals('1', type.charAt(2))) {
+        		//3
+        		rets.add(Arrays.asList(mouth.toString(),mouth.plusDays(6).toString()));
+        	}
+        	if(Objects.equals('1', type.charAt(3))) {
+        		//4
+        		rets.add(Arrays.asList(mouth3.toString(),mouth3.plusDays(6).toString()));
+        	}
+        	if(Objects.equals('1', type.charAt(4))) {
+        		//5
+        		rets.add(Arrays.asList(mouth6.toString(),mouth6.plusDays(6).toString()));
+        	}
+        	if(Objects.equals('1', type.charAt(5))) {
+        		//6
+        		rets.add(Arrays.asList(year.toString(),year.plusDays(6).toString()));
+        	}
+    	}
+    	
+    	
+    	return rets;
+    }
+   
 }

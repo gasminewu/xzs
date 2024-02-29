@@ -41,14 +41,14 @@
           {{scop.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="标题" />
       <el-table-column prop="gradeLevel" label="阶段"  :formatter="levelFormatter" width="80"/>
+      <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="70px"/>
+      <el-table-column prop="title" label="标题" />
        <el-table-column  label="时间" align="center" width="80"><template slot-scope="scope">
           <el-popover placement="top" trigger="hover">
             <div style="padding:10px">开始时间: {{ scope.row.tasktimestart }}</div>
             <div style="padding:10px">结束时间：{{scope.row.tasktimeend }}</div>
             <div style="padding:10px">归档时间：{{scope.row.finishtime }}</div>
-            <div style="padding:10px">创建时间：{{scope.row.createTime }}</div>
             <div slot="reference" class="name-wrapper">
                <div>{{ scope.row.time }}</div>
             </div>
@@ -57,8 +57,7 @@
       </el-table-column>
       <el-table-column prop="tasktimestart" label="开始时间"  width="100px"/>
       <el-table-column prop="finishtime" label="归档时间"  width="100px"/>
-      <el-table-column prop="priority" label="优先级" :formatter="priorityFormatter" width="70px"/>
-      <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="60px"/>
+      <el-table-column prop="priority" label="优先级" :formatter="priorityFormatter" width="70px"/>  
       <el-table-column  label="操作" align="center"  width="160px">
         <template slot-scope="{row}">
           <el-button size="mini" @click="$router.push({path:'/day/edit',query:{id:row.id}})" >编辑</el-button>
@@ -108,7 +107,6 @@ export default {
     },
     exportTask () {
       this.listLoading = true
-      debugger
       taskApi.exportList(this.queryParam).then(re => {
         this.listLoading = false
       })

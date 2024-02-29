@@ -10,7 +10,12 @@ public class BookPageRequestVM extends BasePage {
 	private Integer subjectId;
 	private Integer pinyin;
 	private Integer status;
+	private Integer priority;
 	private String title;
+	/**
+	 * 任务重置
+	 */
+	private String taskFresh;
 	
 	public Integer getLevel() {
 		return level;
@@ -47,6 +52,18 @@ public class BookPageRequestVM extends BasePage {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public String getTaskFresh() {
+		return taskFresh;
+	}
+	public void setTaskFresh(String taskFresh) {
+		this.taskFresh = taskFresh;
+	}
+	public Integer getPriority() {
+		return priority;
+	}
+	public void setPriority(Integer priority) {
+		this.priority = priority;
 	}
 
   

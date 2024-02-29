@@ -8,14 +8,14 @@ public class BookResponseVM extends BaseVM {
 	    private Integer gradeLevel;
 	    private Integer subjectId;
 	    private String title;
-//	    private String autor;
+	    private String autor;
 	    
 	    private Integer difficult;
-//	    private Integer lovel;
-//	    private Integer pinyin;
+	    private Integer lovel;
+	    private Integer pinyin;
 	    
-//	    private String nation;
-//	    private Integer buy;
+	    private String nation;
+	    private Integer buy;
 	    private Integer sn;
 	    private String bz;
 	    private String createTime;
@@ -23,8 +23,12 @@ public class BookResponseVM extends BaseVM {
 
 	    private Integer createUser;
 
-
+	    /**
+	     * 任务的时间（开始时间或者结束时间）
+	     */
+	    private String taskTimeType;
 	    private Integer status;
+	    private Integer priority;
 	    private Integer parentid;
 		public Integer getId() {
 			return id;
@@ -50,12 +54,12 @@ public class BookResponseVM extends BaseVM {
 		public void setTitle(String title) {
 			this.title = title;
 		}
-//		public String getAutor() {
-//			return autor;
-//		}
-//		public void setAutor(String autor) {
-//			this.autor = autor;
-//		}
+		public String getAutor() {
+			return autor;
+		}
+		public void setAutor(String autor) {
+			this.autor = autor;
+		}
 		public Integer getDifficult() {
 			return difficult;
 		}
@@ -97,6 +101,42 @@ public class BookResponseVM extends BaseVM {
 		}
 		public void setParentid(Integer parentid) {
 			this.parentid = parentid;
+		}
+		public Integer getLovel() {
+			return lovel;
+		}
+		public void setLovel(Integer lovel) {
+			this.lovel = lovel;
+		}
+		public Integer getPinyin() {
+			return pinyin;
+		}
+		public void setPinyin(Integer pinyin) {
+			this.pinyin = pinyin;
+		}
+		public String getNation() {
+			return nation;
+		}
+		public void setNation(String nation) {
+			this.nation = nation;
+		}
+		public Integer getBuy() {
+			return buy;
+		}
+		public void setBuy(Integer buy) {
+			this.buy = buy;
+		}
+		public String getTaskTimeType() {
+			return taskTimeType;
+		}
+		public void setTaskTimeType(String taskTimeType) {
+			this.taskTimeType = taskTimeType;
+		}
+		public Integer getPriority() {
+			return priority;
+		}
+		public void setPriority(Integer priority) {
+			this.priority = priority;
 		}
 
 }

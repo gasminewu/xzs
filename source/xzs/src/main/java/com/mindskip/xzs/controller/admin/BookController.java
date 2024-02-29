@@ -15,6 +15,7 @@ import com.mindskip.xzs.base.BaseApiController;
 import com.mindskip.xzs.base.RestResponse;
 import com.mindskip.xzs.base.SystemCode;
 import com.mindskip.xzs.domain.Book;
+import com.mindskip.xzs.domain.User;
 import com.mindskip.xzs.service.BookService;
 import com.mindskip.xzs.service.TextContentService;
 import com.mindskip.xzs.utility.DateTimeUtil;
@@ -91,5 +92,23 @@ public class BookController extends BaseApiController {
     		return new RestResponse<>(SystemCode.ParameterValidError.getCode(), errorMsg);
     	}
         return RestResponse.ok();
+    }
+    /**
+     * 插入或者更新
+     * @return
+     */
+    @RequestMapping(value = "/importinsertFullBook", method = RequestMethod.POST)
+    public RestResponse<?> importinsertFullBook() {
+        bookService.importinsertFullBook();
+        return RestResponse.ok();
+    }
+    /**
+     * 任务自动初始化
+     * @return
+     */
+    @RequestMapping(value = "/taskInit", method = RequestMethod.POST)
+    public RestResponse<?> taskInit(@RequestBody BookPageRequestVM requestVM) {
+    	bookService.taskInit(getCurrentUser(),requestVM);
+    	return RestResponse.ok();
     }
 }

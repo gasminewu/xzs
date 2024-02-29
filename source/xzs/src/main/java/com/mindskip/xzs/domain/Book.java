@@ -86,4 +86,13 @@ public class Book implements Serializable {
     private Date finishTime;
 
     private Boolean deleted;
+    
+    /**
+     * 任务的时间（开始时间或者结束时间）
+     */
+    private String taskTimeType;
+    /**
+     * 进度
+     */
+    private Integer priority;
 }

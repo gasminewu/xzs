@@ -25,23 +25,29 @@
         <router-link :to="{path:'/book/edit'}" class="link-left">
           <el-button type="primary">添加</el-button>
         </router-link>
+        <el-button type="primary" @click="importinsertFullBook">导入</el-button>
+          <el-button type="primary" @click="taskInit">重置任务</el-button>
       </el-form-item>
     </el-form>
     <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-      <el-table-column prop="sn" label="顺序号" width="70px"/>
+      <el-table-column prop="sn" label="序号" width="50px"/>
       <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="200px"/>
       <el-table-column prop="title" label="知识点" show-overflow-tooltip/>
       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="70px"/>
       <el-table-column prop="createTime" label="创建时间" width="100px"/>
-      <el-table-column label="操作" align="center" width="326px">
+      <el-table-column prop="finishTime" label="完成时间" width="100px" />
+      <el-table-column label="操作" align="center" width="156px">
         <template slot-scope="{row}">
          <router-link :to="{path:'/book/edit', query:{id:row.id}}" class="link-left">
             <el-button size="mini">编辑</el-button>
           </router-link>
           <el-button size="mini"  type="danger" @click="deleteQuestion(row)" class="link-left">删除</el-button>
-          <router-link :to="{path:'/book/finish', query:{id:row.id}}" class="link-left">
+         <!--
+
+           <router-link :to="{path:'/book/finish', query:{id:row.id}}" class="link-left">
             <el-button size="mini">状态</el-button>
           </router-link>
+         -->
         </template>
       </el-table-column>
     </el-table>
@@ -94,6 +100,20 @@ export default {
         this.listLoading = false
       })
     },
+    importinsertFullBook () {
+      this.listLoading = true
+      bookApi.importinsertFullBook().then(re => {
+        this.search()
+        this.listLoading = false
+      })
+    },
+    taskInit () {
+      this.listLoading = true
+      bookApi.taskInit(this.queryParam).then(re => {
+        this.search()
+        this.listLoading = false
+      })
+    },
     levelChange () {
       this.queryParam.subjectId = null
       this.subjectFilter = this.subjects.filter(data => data.level === this.queryParam.level)
@@ -113,7 +133,11 @@ export default {
       return this.enumFormat(this.pinyinEnum, cellValue)
     },
     statusFormatter (row, column, cellValue, index) {
-      return this.enumFormat(this.statusEnum, cellValue)
+      if (row.priority) {
+        return this.enumFormat(this.statusEnum, cellValue) + ' (' + row.priority + '%) '
+      } else {
+        return this.enumFormat(this.statusEnum, cellValue)
+      }
     },
     subjectFormatter (row, column, cellValue, index) {
       return this.subjectEnumFormat(cellValue)

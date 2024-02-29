@@ -14,6 +14,9 @@
       <el-form-item label="知识点：" prop="title" required>
         <el-input v-model="form.title" />
       </el-form-item>
+       <el-form-item label="详解：" prop="bz">
+        <el-input v-model="form.bz"  @focus="inputClick(form,'bz')" />
+      </el-form-item>
  <el-form-item label="作者：" prop="autor" v-show="form.tasktype===1">
         <el-input v-model="form.autor"   />
       </el-form-item>
@@ -42,8 +45,21 @@
          <el-form-item label="顺序号：" prop="sn" >
         <el-input-number v-model="form.sn" :precision="0" :step="1" :max="20000"></el-input-number>
       </el-form-item>
-      <el-form-item label="详细说明：" prop="bz">
-        <el-input v-model="form.bz"  @focus="inputClick(form,'bz')" />
+         <el-form-item label="学习情况：" prop="finishcontent">
+        <el-input type="textarea" rows="3"  v-model="form.finishcontent"></el-input>
+      </el-form-item>
+      <el-form-item label="状态：" required>
+        <el-select v-model="form.status" placeholder="状态">
+          <el-option v-for="item in statusEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+        <el-form-item label="进度%：" prop="priority" >
+        <el-input v-model="form.priority"  />
+      </el-form-item>
+        <el-form-item label="任务模式：" required>
+        <el-select v-model="form.taskTimeType" placeholder="任务模块">
+          <el-option v-for="item in taskTimeTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
+        </el-select>
       </el-form-item>
        <el-form-item label="任务：" >
         <el-table  :data="form.taskItems" border fit highlight-current-row style="width: 100%">
@@ -54,7 +70,6 @@
         </el-table-column>
         <el-table-column prop="title" label="标题" />
         <el-table-column prop="tasktimestart" label="开始时间" />
-        <el-table-column prop="tasktimeend" label="结束时间" />
         <el-table-column prop="finishtime" label="归档时间" />
       <el-table-column prop="status" label="状态" :formatter="taskstatusFormatter" width="50px"/>
         </el-table>
@@ -209,7 +224,9 @@ export default {
       buyEnum: state => state.book.buyEnum,
       pinyinEnum: state => state.book.pinyinEnum,
       taskstatusEnum: state => state.task.statusEnum,
-      levelEnum: state => state.user.levelEnum
+      levelEnum: state => state.user.levelEnum,
+      taskTimeTypeEnum: state => state.book.taskTimeTypeEnum,
+      statusEnum: state => state.book.statusEnum
     }),
     ...mapState('exam', { subjects: state => state.subjects })
   }

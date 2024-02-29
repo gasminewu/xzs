@@ -37,10 +37,15 @@ public class BookEditRequestVM {
     private Integer buy;
     @NotNull
     private Integer status;
+    private Integer priority;
     private Integer sn;
     private Integer parentid;
     private String bz;
     private String finishcontent;
     
     private List<TaskPageResponseVM> taskItems;
+    /**
+     * 任务的时间（开始时间或者结束时间）
+     */
+    private String taskTimeType;
 }

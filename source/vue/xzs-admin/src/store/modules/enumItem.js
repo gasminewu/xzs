@@ -31,12 +31,13 @@ const state = {
     pinyinEnum: [{ key: 0, value: '无' }, { key: 1, value: '有' }],
     nationEnum: [{ key: 'home', value: '国内' }, { key: 'Japan', value: '日本' }, { key: 'UK', value: '英国' }, { key: 'French', value: '法国' },
       { key: 'America', value: '美国' }],
-    statusEnum: [{ key: 1, value: '未开始' }, { key: 2, value: '归档' }, { key: 3, value: '学习中' }],
+    statusEnum: [{ key: 1, value: '未开始' }, { key: 2, value: '已归档' }, { key: 3, value: '学习中' }],
+    taskTimeTypeEnum: [{ key: '111111', value: '遗忘曲线' }, { key: '2', value: '两天后' }, { key: '5', value: '四天后' }, { key: '7', value: '一周后' }, { key: '14', value: '四两周后' }],
     buyEnum: [{ key: 1, value: '购买' }, { key: 2, value: '借阅' }]
   },
   task: {
-    priorityEnum: [{ key: 1, value: '普通' }, { key: 2, value: '一般' }, { key: 3, value: '较高' }],
-    statusEnum: [{ key: 1, value: '正常' }, { key: 2, value: '归档' }],
+    priorityEnum: [{ key: 1, value: '了解' }, { key: 2, value: '一般' }, { key: 3, value: '最高' }],
+    statusEnum: [{ key: 1, value: '未开始' }, { key: 2, value: '进行中' }, { key: 3, value: '已归档' }],
     timetypeEnum: [{ key: 1, value: '已开始' }, { key: 2, value: '未开始' }],
     taskTypeEnum: [{ key: 0, value: '普通' }, { key: 1, value: '知识点' }, { key: 3, value: '试卷' }]
   }

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,8 +95,8 @@ public class TaskExamServiceImpl extends BaseServiceImpl<TaskExam> implements Ta
 
 			// 开始结束时间处理
 			List<String> dateTimes = model.getLimitDateTime();
-			taskExam.setTasktimestart(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_FORMAT));
-			taskExam.setTasktimeend(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_FORMAT));
+			taskExam.setTasktimestart(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_SHORT_FORMAT));
+			taskExam.setTasktimeend(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_SHORT_FORMAT));
 			if (taskExam.getStatus().intValue() == 2) {
 				taskExam.setFinishtime(now);
 			}
@@ -126,10 +127,11 @@ public class TaskExamServiceImpl extends BaseServiceImpl<TaskExam> implements Ta
 			modelMapper.map(model, taskExam);
 			// 开始结束时间处理
 			List<String> dateTimes = model.getLimitDateTime();
-			taskExam.setTasktimestart(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_FORMAT));
-			taskExam.setTasktimeend(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_FORMAT));
-			if (taskExam.getStatus().intValue() == 2) {
+			taskExam.setTasktimestart(DateTimeUtil.parse(dateTimes.get(0), DateTimeUtil.STANDER_SHORT_FORMAT));
+			taskExam.setTasktimeend(DateTimeUtil.parse(dateTimes.get(1), DateTimeUtil.STANDER_SHORT_FORMAT));
+			if (taskExam.getStatus().intValue() == 3) {
 				taskExam.setFinishtime(now);
+				//把所关联的知识点，进度修改
 			}
 			TextContent textContent = textContentService.selectById(taskExam.getFrameTextContentId());
 			// 清空试卷任务的试卷Id，后面会统一设置
@@ -274,7 +276,8 @@ public class TaskExamServiceImpl extends BaseServiceImpl<TaskExam> implements Ta
 				});
 			}
 		};
-		String sfwc = "[   ]   [   ]   [   ]";
+		//周日早上，周日晚上，周一晚上，周二晚上，周四晚上，周六
+		String sfwc = "[早] [晚] [一] [二] [四] [六]";
 
 		// 查询要导出的数据
 		List<TaskExam> tasks = taskExamMapper.page(requestVM);
@@ -308,8 +311,14 @@ public class TaskExamServiceImpl extends BaseServiceImpl<TaskExam> implements Ta
 					vm.setTaskms(taskms);
 					vm.setMk(retMk(book.getSubjectId()));
 					vm.setSn(i);
-					 String clearHtml = HtmlUtil.clear(book.getBz());
-					vm.setTaskxx(book.getTitle()+" ;"+clearHtml);
+					if(StringUtils.isBlank(book.getBz())) {
+						vm.setTaskxx(book.getTitle());
+						
+					}else {
+						String clearHtml = HtmlUtil.clear(book.getBz());
+						vm.setTaskxx(book.getTitle()+" ;"+clearHtml);
+						
+					}
 					vm.setSfwc(sfwc);
 					list.add(vm);
 					continue;
