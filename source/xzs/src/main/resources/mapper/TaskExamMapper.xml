@@ -220,8 +220,14 @@
       <if test="timetype != null and timetype == 1">
         and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>0
       </if>
-      <if test="timetype != null and timetype == 2">
-        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>0
+      <if test="timetype != null and timetype == 4">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>4
+      </if>
+       <if test="timetype != null and timetype == 7">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>7
+      </if>
+        <if test="timetype != null and timetype == 77">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>7
       </if>
       order by tasktimestart desc,sn
     </where>
@@ -242,5 +248,11 @@
     from t_task_exam b
     where  exists(select 1 from  t_task_exam_relation r where  b.id=r.task_exam_id and r.relationid =#{relationid,jdbcType=INTEGER})  
   </select>
+  <!-- 根据书籍主键删除所有未开始的的-->
+  <delete id="deleteByBookId" parameterType="java.lang.Integer" >
+     delete
+    from t_task_exam 
+    where status='1' and   exists(select 1 from  t_task_exam_relation r where  t_task_exam.id=r.task_exam_id and r.relationid =#{relationid,jdbcType=INTEGER})  
+  </delete>
   
 </mapper>

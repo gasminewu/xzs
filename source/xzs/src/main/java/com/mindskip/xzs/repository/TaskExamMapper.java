@@ -18,4 +18,5 @@ public interface TaskExamMapper extends BaseMapper<TaskExam> {
      * @return
      */
     List<TaskExam> selectListByBookId(Integer relationid);
+    void deleteByBookId(Integer relationid);
 }

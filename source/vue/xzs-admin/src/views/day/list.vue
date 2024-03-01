@@ -21,7 +21,7 @@
           <el-option v-for="item in taskTypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>
       </el-form-item>
-        <el-form-item label="是否开始：">
+        <el-form-item label="时间轴：">
         <el-select v-model="queryParam.timetype" placeholder="是否开始" clearable>
           <el-option v-for="item in timetypeEnum" :key="item.key" :value="item.key" :label="item.value"></el-option>
         </el-select>

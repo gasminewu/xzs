@@ -233,8 +233,12 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 					if (null != books && books.size() > 0) {
 						book = books.get(0);
 						model.setSn(book.getSn());
-						model.setStatus(book.getStatus());
-						model.setDifficult(book.getDifficult());
+						if(null==model.getStatus()) {
+							model.setStatus(book.getStatus());
+						}
+						if(null==model.getDifficult()) {
+							model.setDifficult(book.getDifficult());
+						}
 						bookMapper.updateByPrimaryKeySelective(setBookInfoFromVM(book, false, model));
 					} else {
 						book = new Book();
@@ -242,7 +246,9 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 						book.setCreateUser(0);
 						book.setDeleted(false);
 
-						model.setStatus(1);
+						if(null==model.getStatus()) {
+							model.setStatus(1);
+						}
 						bookMapper.insertSelective(setBookInfoFromVM(book, true, model));
 					}
 
@@ -268,6 +274,8 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 		int i=0;
 		List<Book> books=bookMapper.page(requestVM);
 		for (Book book : books) {
+			//删除未开始的任务
+			this.taskExamMapper.deleteByBookId(book.getId());
 			//开始时间结束时间
 			List<List<String>> l=DateTimeUtil.listLimitDateTime6_1(book.getTaskTimeType());
 			for (List<String> limitDateTime : l) {

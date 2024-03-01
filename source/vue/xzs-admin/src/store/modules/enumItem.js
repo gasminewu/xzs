@@ -38,7 +38,7 @@ const state = {
   task: {
     priorityEnum: [{ key: 1, value: '了解' }, { key: 2, value: '一般' }, { key: 3, value: '最高' }],
     statusEnum: [{ key: 1, value: '未开始' }, { key: 2, value: '进行中' }, { key: 3, value: '已归档' }],
-    timetypeEnum: [{ key: 1, value: '已开始' }, { key: 2, value: '未开始' }],
+    timetypeEnum: [{ key: 1, value: '1日' }, { key: 4, value: '4日' }, { key: 7, value: '7日' }, { key: 77, value: '7日后' }],
     taskTypeEnum: [{ key: 0, value: '普通' }, { key: 1, value: '知识点' }, { key: 3, value: '试卷' }]
   }
 }
