@@ -24,6 +24,9 @@ import com.mindskip.xzs.utility.PageInfoHelper;
 import com.mindskip.xzs.viewmodel.admin.book.BookEditRequestVM;
 import com.mindskip.xzs.viewmodel.admin.book.BookPageRequestVM;
 import com.mindskip.xzs.viewmodel.admin.book.BookResponseVM;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController("AdminBookController")
 @RequestMapping(value = "/api/admin/book")
@@ -98,8 +101,8 @@ public class BookController extends BaseApiController {
      * @return
      */
     @RequestMapping(value = "/importinsertFullBook", method = RequestMethod.POST)
-    public RestResponse<?> importinsertFullBook() {
-        bookService.importinsertFullBook();
+    public RestResponse<?> importinsertFullBook(MultipartFile uploadfile) {
+        bookService.importinsertFullBook(uploadfile);
         return RestResponse.ok();
     }
     /**
@@ -109,6 +112,15 @@ public class BookController extends BaseApiController {
     @RequestMapping(value = "/taskInit", method = RequestMethod.POST)
     public RestResponse<?> taskInit(@RequestBody BookPageRequestVM requestVM) {
     	bookService.taskInit(getCurrentUser(),requestVM);
+    	return RestResponse.ok();
+    }
+    /**
+     * 知识点修改状态
+     * @return
+     */
+    @RequestMapping(value = "/updateSelectionStatus", method = RequestMethod.POST)
+    public RestResponse<?> updateSelectionStatus(@RequestBody List<BookPageRequestVM> requestVM) {
+    	bookService.updateSelectionStatus(getCurrentUser(),requestVM);
     	return RestResponse.ok();
     }
 }

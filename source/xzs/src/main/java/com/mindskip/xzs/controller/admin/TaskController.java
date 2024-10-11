@@ -7,6 +7,7 @@ import com.mindskip.xzs.domain.TaskExam;
 import com.mindskip.xzs.service.TaskExamService;
 import com.mindskip.xzs.utility.DateTimeUtil;
 import com.mindskip.xzs.utility.PageInfoHelper;
+import com.mindskip.xzs.viewmodel.admin.book.BookPageRequestVM;
 import com.mindskip.xzs.viewmodel.admin.task.TaskPageRequestVM;
 import com.mindskip.xzs.viewmodel.admin.task.TaskPageResponseVM;
 import com.mindskip.xzs.viewmodel.admin.task.TaskRequestVM;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -85,6 +87,15 @@ public class TaskController extends BaseApiController {
     @RequestMapping(value = "/export", method = RequestMethod.POST)
     public RestResponse export(@RequestBody TaskPageRequestVM model,HttpServletResponse response) {
         taskExamService.exportExcel(model,response);
+        return RestResponse.ok();
+    }
+    /**
+     * 任务批量修改状态
+     * @return
+     */
+    @RequestMapping(value = "/updateSelectionStatus", method = RequestMethod.POST)
+    public RestResponse<?> updateSelectionStatus(@RequestBody List<TaskRequestVM> requestVM) {
+        taskExamService.updateSelectionStatus(getCurrentUser(),requestVM);
         return RestResponse.ok();
     }
 }

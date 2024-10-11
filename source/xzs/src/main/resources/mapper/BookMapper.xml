@@ -262,6 +262,12 @@
     from t_book b
     where  exists(select 1 from  t_task_exam_relation r where  b.id=r.relationid and r.task_exam_id =#{taskExamId,jdbcType=INTEGER})  
   </select>
-  
-
+  <!-- 根据id更新状态-->
+  <update id="updateStatus">
+    update t_book set status=#{status} where id in
+    <foreach item="id" collection="ids" open="(" separator=","
+             close=")">
+      #{id}
+    </foreach>
+  </update>
 </mapper>

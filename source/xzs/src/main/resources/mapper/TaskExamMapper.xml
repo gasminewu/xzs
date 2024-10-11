@@ -214,20 +214,14 @@
       <if test="priority != null">
         and priority = #{priority}
       </if>
-       <if test="tasktype != null">
-        and tasktype = #{tasktype}
+      <if test="tasktype != null">
+        and priority = #{tasktype}
       </if>
-      <if test="timetype != null and timetype == 1">
-        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>0
-      </if>
-      <if test="timetype != null and timetype == 4">
-        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>4
-      </if>
-       <if test="timetype != null and timetype == 7">
-        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>7
+      <if test="timetype != null and timetype != 77">
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ <= ]]>#{timetype}
       </if>
         <if test="timetype != null and timetype == 77">
-        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>7
+        and DATEDIFF(tasktimestart,#{nowTime})<![CDATA[ > ]]>9
       </if>
       order by tasktimestart desc,sn
     </where>
@@ -254,5 +248,12 @@
     from t_task_exam 
     where status='1' and   exists(select 1 from  t_task_exam_relation r where  t_task_exam.id=r.task_exam_id and r.relationid =#{relationid,jdbcType=INTEGER})  
   </delete>
-  
+  <!-- 根据id更新状态-->
+  <update id="updateStatus">
+    update t_task_exam set status=#{status} where id in
+    <foreach item="id" collection="ids" open="(" separator=","
+             close=")">
+      #{id}
+    </foreach>
+  </update>
 </mapper>

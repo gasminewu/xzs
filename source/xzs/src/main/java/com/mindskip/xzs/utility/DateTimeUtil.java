@@ -267,13 +267,13 @@ public class DateTimeUtil {
     	//比下周日+7天 
     	LocalDate sunday2=sundayDate.plusDays(7);
     	//比下周日+7+30天 1个月
-    	LocalDate mouth=sundayDate.plusDays(7+30);
+    	LocalDate mouth=sundayDate.plusDays(7+21);
     	//比下周日+7+30+90天 4个月
-    	LocalDate mouth3=sundayDate.plusDays(7+30+90);
+    	LocalDate mouth3=sundayDate.plusDays(7+21+56);
     	//比下周日+7+30+90+180天 10个月
-    	LocalDate mouth6=sundayDate.plusDays(7+30+90+180);
+    	LocalDate mouth6=sundayDate.plusDays(7+21+56+91);
     	//比下周日+7+30+90+180+365天 一年4个月
-    	LocalDate year=sundayDate.plusDays(7+30+90+180+365);
+    	LocalDate year=sundayDate.plusDays(7+21+56+91+175);
     	
     	int typeInt=Integer.parseInt(type);
     	if(typeInt<=365) {
@@ -281,7 +281,15 @@ public class DateTimeUtil {
     		LocalDate addDay=nowDate.plusDays(typeInt);
     		rets.add(Arrays.asList(addDay.toString(),addDay.plusDays(6).toString()));
     	}else {
-    		//按照遗忘曲线
+    		//按照遗忘曲线 5分钟，30分钟，12小时，1天，2天，4天，7天
+    		if(Objects.equals('2', type.charAt(0))) {
+        		//111111 下周
+        		rets.add(Arrays.asList(sundayDate.toString(),sundayDate.plusDays(0).toString()));
+        		rets.add(Arrays.asList(sundayDate.plusDays(1).toString(),sundayDate.plusDays(1).toString()));
+        		rets.add(Arrays.asList(sundayDate.plusDays(2).toString(),sundayDate.plusDays(2).toString()));
+        		rets.add(Arrays.asList(sundayDate.plusDays(4).toString(),sundayDate.plusDays(4).toString()));
+        		rets.add(Arrays.asList(sundayDate.plusDays(6).toString(),sundayDate.plusDays(6).toString()));
+        	}
     		if(Objects.equals('1', type.charAt(0))) {
         		//111111 下周
         		rets.add(Arrays.asList(sundayDate.toString(),sundayDate.plusDays(6).toString()));

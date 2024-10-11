@@ -26,13 +26,28 @@
           <el-button type="primary">添加</el-button>
         </router-link>
         <el-button type="primary" @click="importinsertFullBook">导入</el-button>
-          <el-button type="primary" @click="taskInit">重置任务</el-button>
+        <el-button type="primary" @click="taskInit">重置任务</el-button>
+  <el-dropdown trigger="click">
+    <el-button type="primary">
+      重置状态 <i class="el-icon-arrow-down el-icon--right"></i>
+    </el-button>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item v-for="item in statusEnum" :key="item.key" @click.native="fupdateSelectionStatus(item.key)">
+          {{ item.value }}
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+
       </el-form-item>
     </el-form>
-    <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
+    <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%"  @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column prop="sn" label="序号" width="50px"/>
       <el-table-column prop="subjectId" label="模块" :formatter="subjectFormatter" width="200px"/>
       <el-table-column prop="title" label="知识点" show-overflow-tooltip/>
+      <el-table-column prop="taskTimeType" label="任务类型"  width="70px"/>
       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="70px"/>
       <el-table-column prop="createTime" label="创建时间" width="100px"/>
       <el-table-column prop="finishTime" label="完成时间" width="100px" />
@@ -77,6 +92,7 @@ export default {
       },
       subjectFilter: null,
       listLoading: true,
+      selectedRows: [],
       tableData: [],
       total: 0
     }
@@ -110,6 +126,17 @@ export default {
     taskInit () {
       this.listLoading = true
       bookApi.taskInit(this.queryParam).then(re => {
+        this.search()
+        this.listLoading = false
+      })
+    },
+    fupdateSelectionStatus (status) {
+      console.log('Selected key:', status)
+      this.listLoading = true
+      this.selectedRows.forEach(row => {
+        row.status = status
+      })
+      bookApi.updateSelectionStatus(this.selectedRows).then(re => {
         this.search()
         this.listLoading = false
       })
@@ -148,6 +175,10 @@ export default {
       }
       return '否'
     },
+    handleSelectionChange (val) {
+      this.selectedRows = val
+    },
+
     ...mapActions('exam', { initSubject: 'initSubject' })
   },
   computed: {

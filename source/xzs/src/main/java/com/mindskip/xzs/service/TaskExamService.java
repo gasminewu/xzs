@@ -26,4 +26,6 @@ public interface TaskExamService extends BaseService<TaskExam> {
      * @param response
      */
     void exportExcel(TaskPageRequestVM requestVM,HttpServletResponse response);
+
+    void updateSelectionStatus(User currentUser, List<TaskRequestVM> requestVM);
 }

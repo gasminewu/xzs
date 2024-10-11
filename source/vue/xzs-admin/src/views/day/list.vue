@@ -32,10 +32,23 @@
           <el-button type="primary">添加</el-button>
         </router-link>
         <el-button type="primary" @click="exportTask">导出</el-button>
+          <el-dropdown trigger="click">
+    <el-button type="primary">
+      重置状态 <i class="el-icon-arrow-down el-icon--right"></i>
+    </el-button>
+    <template #dropdown>
+      <el-dropdown-menu>
+        <el-dropdown-item v-for="item in statusEnum" :key="item.key" @click.native="fupdateSelectionStatus(item.key)">
+          {{ item.value }}
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
       </el-form-item>
     </el-form>
 
-    <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
+    <el-table v-loading="listLoading" :data="tableData" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column   label="序号" align="center" width="60px">
         <template slot-scope="scop">
           {{scop.$index+1}}
@@ -44,6 +57,7 @@
       <el-table-column prop="gradeLevel" label="阶段"  :formatter="levelFormatter" width="80"/>
       <el-table-column prop="tasktype" label="类别" :formatter="tasktypeFormatter" width="70px"/>
       <el-table-column prop="title" label="标题" />
+       <el-table-column prop="status" label="状态" :formatter="statusFormatter" width="70px"/>
        <el-table-column  label="时间" align="center" width="80"><template slot-scope="scope">
           <el-popover placement="top" trigger="hover">
             <div style="padding:10px">开始时间: {{ scope.row.tasktimestart }}</div>
@@ -81,13 +95,14 @@ export default {
     return {
       queryParam: {
         gradeLevel: null,
-        status: null,
+        status: 1,
         timetype: null,
         pageIndex: 1,
         pageSize: 10
       },
       listLoading: true,
       tableData: [],
+      selectedRows: [],
       total: 0
     }
   },
@@ -104,6 +119,9 @@ export default {
         this.queryParam.pageIndex = re.pageNum
         this.listLoading = false
       })
+    },
+    handleSelectionChange (val) {
+      this.selectedRows = val
     },
     exportTask () {
       this.listLoading = true
@@ -137,6 +155,16 @@ export default {
     },
     priorityFormatter  (row, column, cellValue, index) {
       return this.enumFormat(this.priorityEnum, cellValue)
+    },
+    fupdateSelectionStatus (status) {
+      this.listLoading = true
+      this.selectedRows.forEach(row => {
+        row.status = status
+      })
+      taskApi.updateSelectionStatus(this.selectedRows).then(re => {
+        this.search()
+        this.listLoading = false
+      })
     },
     timeFormatter  (row, column, cellValue, index) {
       return 'ewewee'

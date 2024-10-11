@@ -1,13 +1,21 @@
 package com.mindskip.xzs.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.mindskip.xzs.exception.BusinessException;
+import com.mindskip.xzs.utility.poi.PoitlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +37,12 @@ import com.mindskip.xzs.service.TextContentService;
 import com.mindskip.xzs.utility.DateTimeUtil;
 import com.mindskip.xzs.utility.JsonUtil;
 import com.mindskip.xzs.utility.ModelMapperSingle;
-import com.mindskip.xzs.utility.poi.XLSXCovertCSVReader;
 import com.mindskip.xzs.viewmodel.admin.book.BookEditRequestVM;
 import com.mindskip.xzs.viewmodel.admin.book.BookPageRequestVM;
 import com.mindskip.xzs.viewmodel.admin.book.BookResponseVM;
 import com.mindskip.xzs.viewmodel.admin.task.TaskPageResponseVM;
 import com.mindskip.xzs.viewmodel.admin.task.TaskRequestVM;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -68,6 +76,16 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 	@Override
 	public Book insertFullBook(BookEditRequestVM model, Integer userId) {
 		Book book = null;
+		BookPageRequestVM requestVM = new BookPageRequestVM();
+		requestVM.setTitle(model.getTitle());
+		List<Book> books = bookMapper.page(requestVM);
+		boolean isHas=false;
+		if (null != books && books.size() > 0) {
+			isHas=true;
+		}
+		if(isHas&&null == model.getId()){
+			throw new BusinessException("已存在标题的知识点");
+		}
 		if (null == model.getId()) {
 			// 新增
 			book = new Book();
@@ -160,17 +178,16 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 
 		return bookEditRequestVM;
 	}
-
 	/**
 	 * 导入，根据title 插入或者更新
 	 */
 	@Override
-	public void importinsertFullBook() {
+	public void importinsertFullBook(MultipartFile uploadfile) {
 		Book book = null;
 		BookEditRequestVM model = null;
 		try {
-			List<List<String[]>> allSheets = XLSXCovertCSVReader
-					.readerAllSheetExcel("C:\\Users\\Administrator\\Desktop\\xzs.xlsx");
+			List<List<String[]>> allSheets = PoitlUtils
+					.readerAllSheetExcel();
 			for (List<String[]> singleSheet : allSheets) {
 				// 循环所有的sheet
 				// 定义阶段
@@ -303,5 +320,11 @@ public class BookServiceImpl extends BaseServiceImpl<Book> implements BookServic
 			}
 		}
 		
+	}
+
+	@Override
+	public void updateSelectionStatus(User currentUser, List<BookPageRequestVM> requestVM) {
+		List<Integer> bookIds = requestVM.stream().map(BookPageRequestVM::getId).collect(Collectors.toList());
+		bookMapper.updateStatus(bookIds,requestVM.get(0).getStatus());
 	}
 }

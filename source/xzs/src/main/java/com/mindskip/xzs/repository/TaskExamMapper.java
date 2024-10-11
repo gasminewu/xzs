@@ -3,6 +3,7 @@ package com.mindskip.xzs.repository;
 import com.mindskip.xzs.domain.TaskExam;
 import com.mindskip.xzs.viewmodel.admin.task.TaskPageRequestVM;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface TaskExamMapper extends BaseMapper<TaskExam> {
      */
     List<TaskExam> selectListByBookId(Integer relationid);
     void deleteByBookId(Integer relationid);
+
+    Integer updateStatus(@Param("ids") List<Integer> ids, Integer status);
 }

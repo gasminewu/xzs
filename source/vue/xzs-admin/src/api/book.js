@@ -6,5 +6,7 @@ export default {
   select: id => post('/api/admin/book/select/' + id),
   deletebook: id => post('/api/admin/book/delete/' + id),
   taskInit: query => post('/api/admin/book/taskInit', query),
-  importinsertFullBook: query => post('/api/admin/book/importinsertFullBook', query)
+  importinsertFullBook: query => post('/api/admin/book/importinsertFullBook', query),
+  updateSelectionStatus: parms => post('/api/admin/book/updateSelectionStatus', parms)
+
 }

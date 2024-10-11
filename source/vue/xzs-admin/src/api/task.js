@@ -5,5 +5,6 @@ export default {
   edit: query => post('/api/admin/task/edit', query),
   select: id => post('/api/admin/task/select/' + id),
   exportList: query => post('/api/admin/task/export', query),
-  deleteTask: id => post('/api/admin/task/delete/' + id)
+  deleteTask: id => post('/api/admin/task/delete/' + id),
+  updateSelectionStatus: parms => post('/api/admin/task/updateSelectionStatus', parms)
 }
